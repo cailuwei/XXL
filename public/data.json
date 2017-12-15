@@ -1,0 +1,960 @@
+[
+    {
+        "id": 15,
+        "text": "profiles::proxy",
+        "open": true,
+        "meta": {
+            "version": "1.0.0"
+        },
+        "children": [
+            {
+                "id": "01fca33d-1506-4a84-ba84-95609b5ed720",
+                "text": "servers",
+                "open": true,
+                "meta": {
+                    "type": "STRING",
+                    "required": true,
+                    "index": 0
+                },
+                "children": [
+                    {
+                        "id": "0988a661-594a-43e6-a41c-c830873449cf",
+                        "text": "server_name",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": true,
+                            "index": 0
+                        },
+                        "children": [
+                            {
+                                "id": "028945a7-2f50-44f7-ad9e-3e552b32a9e5",
+                                "text": "none_string_YYY",
+                                "open": true,
+                                "meta": {
+                                    "type": "NONE",
+                                    "required": true,
+                                    "index": -1
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "1",
+                            "type": "ARRAY",
+                            "minSize": "1",
+                            "maxSize": "infinite",
+                            "required": true
+                        }
+                    },
+                    {
+                        "id": "ec0b5944-d40d-4c63-8230-37d3f310988e",
+                        "text": "proxy",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": true,
+                            "index": 1
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": true
+                        }
+                    },
+                    {
+                        "id": "bd8c6927-3375-4a99-a252-849b4c04bd97",
+                        "text": "server_cfg_prepend",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 2
+                        },
+                        "children": [
+                            {
+                                "id": "806ba189-a19e-4176-b435-e4486d7b83ed",
+                                "text": "any_string_XNR",
+                                "open": true,
+                                "meta": {
+                                    "type": "ANY",
+                                    "required": true,
+                                    "index": -1,
+                                    "maxLength": 64
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "1",
+                            "type": "HASH",
+                            "minSize": "1",
+                            "maxSize": "infinite",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "2e8ba31c-5c9b-429b-9bad-2ac74ea4f5a4",
+                        "text": "format_log",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 3
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "4d0373b4-0167-47a1-892f-49b41404fb22",
+                        "text": "access_log",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 4
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "79dd5c0f-341e-46a9-92e2-31bfc35a68eb",
+                        "text": "use_default_location",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 5
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "90100475-cf74-4a42-91d0-af41d32db525",
+                        "text": "key_to_name",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 6
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "3e985baf-fefc-454e-bd23-72dc43a2058b",
+                        "text": "proxy_read_timeout",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 7
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "5beef4fc-5219-41d6-9920-35632699b9ba",
+                        "text": "proxy_set_header",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 8
+                        },
+                        "children": [
+                            {
+                                "id": "06b99d7e-3f48-4b7d-80db-ffada3e0d0e2",
+                                "text": "none_string_wyg",
+                                "open": true,
+                                "meta": {
+                                    "type": "NONE",
+                                    "required": true,
+                                    "index": -1
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "1",
+                            "type": "ARRAY",
+                            "minSize": "1",
+                            "maxSize": "infinite",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "db9b77db-e8c2-4c93-9c73-41d5eb16144e",
+                        "text": "location_cfg_append",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 9
+                        },
+                        "children": [
+                            {
+                                "id": "0690bd07-3386-49b0-9f8a-458f30209efb",
+                                "text": "any_string_Yzh",
+                                "open": true,
+                                "meta": {
+                                    "type": "ANY",
+                                    "required": true,
+                                    "index": -1,
+                                    "maxLength": 64
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "1",
+                            "type": "HASH",
+                            "minSize": "1",
+                            "maxSize": "infinite",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "4d98b5d3-00e4-47ca-b81b-b8173f7b4f40",
+                        "text": "locations",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 14
+                        },
+                        "children": [
+                            {
+                                "id": "d9e069ce-43b3-44ba-bac3-4148e0b0fd2a",
+                                "text": "any_string_ggv",
+                                "open": true,
+                                "meta": {
+                                    "type": "ANY",
+                                    "required": true,
+                                    "index": -1,
+                                    "maxLength": 64
+                                },
+                                "children": [
+                                    {
+                                        "id": "1eec364f-e4a3-4aef-a5b6-b7b18ae46d44",
+                                        "text": "location",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "STRING",
+                                            "required": false,
+                                            "index": 1
+                                        },
+                                        "childrenMeta": {
+                                            "type": "STRING",
+                                            "required": false
+                                        }
+                                    },
+                                    {
+                                        "id": "7d178b45-ea5c-4356-b3a3-111244a538ee",
+                                        "text": "proxy",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "STRING",
+                                            "required": false,
+                                            "index": 2
+                                        },
+                                        "childrenMeta": {
+                                            "type": "STRING",
+                                            "required": false
+                                        }
+                                    },
+                                    {
+                                        "id": "e765f6bf-47b4-4968-b116-3fb5f471a789",
+                                        "text": "proxy_http_version",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "STRING",
+                                            "required": false,
+                                            "index": 3
+                                        },
+                                        "childrenMeta": {
+                                            "type": "STRING",
+                                            "required": false
+                                        }
+                                    },
+                                    {
+                                        "id": "17c89a0d-ad10-4c24-9818-2493ff0dc2c8",
+                                        "text": "proxy_buffering",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "STRING",
+                                            "required": false,
+                                            "index": 4
+                                        },
+                                        "childrenMeta": {
+                                            "type": "STRING",
+                                            "required": false
+                                        }
+                                    },
+                                    {
+                                        "id": "0b9a9cf9-260f-4965-8878-f50a62e18e49",
+                                        "text": "proxy_set_header",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "STRING",
+                                            "required": false,
+                                            "index": 5
+                                        },
+                                        "children": [
+                                            {
+                                                "id": "cf7d65f6-dba0-40a4-a4f7-f2865f013c75",
+                                                "text": "none_string_szf",
+                                                "open": true,
+                                                "meta": {
+                                                    "type": "NONE",
+                                                    "required": true,
+                                                    "index": -1
+                                                },
+                                                "childrenMeta": {
+                                                    "type": "STRING",
+                                                    "required": true
+                                                }
+                                            }
+                                        ],
+                                        "childrenMeta": {
+                                            "size": "1",
+                                            "type": "ARRAY",
+                                            "minSize": "1",
+                                            "maxSize": "infinite",
+                                            "required": false
+                                        }
+                                    },
+                                    {
+                                        "id": "6e967c7e-8746-4b57-b412-7eef1b3226c6",
+                                        "text": "location_cfg_append",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "STRING",
+                                            "required": false,
+                                            "index": 6
+                                        },
+                                        "children": [
+                                            {
+                                                "id": "ed9ec324-9e99-4777-989f-2210291d5de1",
+                                                "text": "none_string_ZWe",
+                                                "open": true,
+                                                "meta": {
+                                                    "type": "NONE",
+                                                    "required": true,
+                                                    "index": -1
+                                                },
+                                                "childrenMeta": {
+                                                    "type": "STRING",
+                                                    "required": true
+                                                }
+                                            }
+                                        ],
+                                        "childrenMeta": {
+                                            "size": "1",
+                                            "type": "HASH",
+                                            "minSize": "1",
+                                            "maxSize": "infinite",
+                                            "required": false
+                                        }
+                                    }
+                                ],
+                                "childrenMeta": {
+                                    "size": "7",
+                                    "type": "HASH",
+                                    "minSize": "7",
+                                    "maxSize": "7",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "1",
+                            "type": "HASH",
+                            "minSize": "1",
+                            "maxSize": "infinite",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "3c8c2860-4b96-49d1-9ca3-d000a6ba9eef",
+                        "text": "old_key",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 11
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "8e4048b2-6c5e-498c-8dc6-3e30bd4f04d2",
+                        "text": "new_key",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 12
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "8723e0da-83c5-4d1c-8fe7-3d4f4b7e6756",
+                        "text": "effective_date",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 13
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    }
+                ],
+                "childrenMeta": {
+                    "size": "10",
+                    "type": "HASH",
+                    "minSize": "10",
+                    "maxSize": "10",
+                    "required": true
+                }
+            },
+            {
+                "id": "e726ee30-5870-4a65-bb88-1153eb95316b",
+                "text": "upstreams",
+                "open": true,
+                "meta": {
+                    "type": "STRING",
+                    "required": true,
+                    "index": 1
+                },
+                "children": [
+                    {
+                        "id": "e9e5e54b-0af7-494d-97c8-76767c8000d1",
+                        "text": "any_string_tkC",
+                        "open": true,
+                        "meta": {
+                            "type": "ANY",
+                            "required": true,
+                            "index": -1,
+                            "maxLength": 64
+                        },
+                        "children": [
+                            {
+                                "id": "916bcebe-43eb-47df-99a7-580ec460c89e",
+                                "text": "members",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": true,
+                                    "index": 0
+                                },
+                                "children": [
+                                    {
+                                        "id": "0bd89adf-8962-444a-95e9-ef9d49ddaa19",
+                                        "text": "none_string_GWW",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "NONE",
+                                            "required": true,
+                                            "index": -1
+                                        },
+                                        "childrenMeta": {
+                                            "type": "STRING",
+                                            "required": true
+                                        }
+                                    }
+                                ],
+                                "childrenMeta": {
+                                    "size": "1",
+                                    "type": "ARRAY",
+                                    "minSize": "1",
+                                    "maxSize": "infinite",
+                                    "required": true
+                                }
+                            },
+                            {
+                                "id": "4805a00c-01e4-44d9-950e-d79cf229f781",
+                                "text": "upstream_max_fails",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 1
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": false
+                                }
+                            },
+                            {
+                                "id": "dbed1a4e-0768-4cf6-8de2-a19abf9bf850",
+                                "text": "upstream_cfg_prepend",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 2
+                                },
+                                "children": [
+                                    {
+                                        "id": "a655dec1-0b62-44ea-b721-dc2d09b357d9",
+                                        "text": "none_string_wJk",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "NONE",
+                                            "required": true,
+                                            "index": -1
+                                        },
+                                        "childrenMeta": {
+                                            "type": "STRING",
+                                            "required": true
+                                        }
+                                    }
+                                ],
+                                "childrenMeta": {
+                                    "size": "1",
+                                    "type": "HASH",
+                                    "minSize": "1",
+                                    "maxSize": "infinite",
+                                    "required": false
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "3",
+                            "type": "HASH",
+                            "minSize": "3",
+                            "maxSize": "3",
+                            "required": true
+                        }
+                    }
+                ],
+                "childrenMeta": {
+                    "size": "1",
+                    "type": "HASH",
+                    "minSize": "1",
+                    "maxSize": "infinite",
+                    "required": true
+                }
+            },
+            {
+                "id": "e6051be1-d893-4907-9a8d-f1ded5e7f5a1",
+                "text": "main",
+                "open": true,
+                "meta": {
+                    "type": "STRING",
+                    "required": false,
+                    "index": 2
+                },
+                "children": [
+                    {
+                        "id": "c449b46b-b69f-433f-9a84-bd6b1367827b",
+                        "text": "log_format",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 0
+                        },
+                        "children": [
+                            {
+                                "id": "91f8438b-bc0f-41df-8f0e-88e0bd01e66a",
+                                "text": "any_string_IHN",
+                                "open": true,
+                                "meta": {
+                                    "type": "ANY",
+                                    "required": true,
+                                    "index": -1,
+                                    "maxLength": 64
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "1",
+                            "type": "HASH",
+                            "minSize": "1",
+                            "maxSize": "infinite",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "c2bc4874-b624-4f11-9f5d-a14aeabe78c8",
+                        "text": "http_cfg_append",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 1
+                        },
+                        "children": [
+                            {
+                                "id": "45f11dd7-d2a5-44e8-b4b8-ce366958b037",
+                                "text": "any_string_Wzm",
+                                "open": true,
+                                "meta": {
+                                    "type": "ANY",
+                                    "required": true,
+                                    "index": -1,
+                                    "maxLength": 64
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "1",
+                            "type": "HASH",
+                            "minSize": "1",
+                            "maxSize": "infinite",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "ed6e39cc-5518-4731-ad1f-3dea74b62e22",
+                        "text": "proxy_set_header",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 2
+                        },
+                        "children": [
+                            {
+                                "id": "d3c502a1-1ded-4cbb-9248-d9189a2c25b7",
+                                "text": "none_string_QLA",
+                                "open": true,
+                                "meta": {
+                                    "type": "NONE",
+                                    "required": true,
+                                    "index": -1
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "1",
+                            "type": "ARRAY",
+                            "minSize": "1",
+                            "maxSize": "infinite",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "cdeabb69-378d-4a8a-bc1f-fbde587d0775",
+                        "text": "package_ensure",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 3
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "5e6185b9-b693-4294-a583-1103b5c0b652",
+                        "text": "hasdefault",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 4
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    },
+                    {
+                        "id": "93620876-21d9-4e69-99e7-80a9bebd56ab",
+                        "text": "hasredirect",
+                        "open": true,
+                        "meta": {
+                            "type": "STRING",
+                            "required": false,
+                            "index": 5
+                        },
+                        "childrenMeta": {
+                            "type": "STRING",
+                            "required": false
+                        }
+                    }
+                ],
+                "childrenMeta": {
+                    "size": "6",
+                    "type": "HASH",
+                    "minSize": "6",
+                    "maxSize": "6",
+                    "required": false
+                }
+            },
+            {
+                "id": "8028d7f1-7a59-4791-83d2-f7a48f5760ba",
+                "text": "maps",
+                "open": true,
+                "meta": {
+                    "type": "STRING",
+                    "required": false,
+                    "index": 3
+                },
+                "children": [
+                    {
+                        "id": "4f388e9d-c95f-4f2c-9332-92ed40a73e61",
+                        "text": "any_string_fia",
+                        "open": true,
+                        "meta": {
+                            "type": "ANY",
+                            "required": false,
+                            "index": -1,
+                            "maxLength": 64
+                        },
+                        "children": [
+                            {
+                                "id": "c6166730-446a-4c5d-b867-578670feb77f",
+                                "text": "default",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 0
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": false
+                                }
+                            },
+                            {
+                                "id": "89f9b3d7-02f8-4c04-9690-5d15c49e51e8",
+                                "text": "string",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 1
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": false
+                                }
+                            },
+                            {
+                                "id": "b3d57185-8b9a-4659-8b09-3ba5ae8391f2",
+                                "text": "mappings",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 2
+                                },
+                                "children": [
+                                    {
+                                        "id": "babb65fb-480e-46bf-ba52-b9e4c0b49008",
+                                        "text": "any_string_nVI",
+                                        "open": true,
+                                        "meta": {
+                                            "type": "ANY",
+                                            "required": true,
+                                            "index": -1,
+                                            "maxLength": 64
+                                        },
+                                        "childrenMeta": {
+                                            "type": "STRING",
+                                            "required": true
+                                        }
+                                    }
+                                ],
+                                "childrenMeta": {
+                                    "size": "1",
+                                    "type": "HASH",
+                                    "minSize": "1",
+                                    "maxSize": "infinite",
+                                    "required": false
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "3",
+                            "type": "HASH",
+                            "minSize": "3",
+                            "maxSize": "3",
+                            "required": false
+                        }
+                    }
+                ],
+                "childrenMeta": {
+                    "size": "1",
+                    "type": "HASH",
+                    "minSize": "1",
+                    "maxSize": "infinite",
+                    "required": false
+                }
+            },
+            {
+                "id": "ae72fe1c-5fde-4034-8a66-4fa8577bde6d",
+                "text": "files",
+                "open": true,
+                "meta": {
+                    "type": "STRING",
+                    "required": false,
+                    "index": 4
+                },
+                "children": [
+                    {
+                        "id": "ad9f42a4-ec91-41fe-ac7d-7ca7bce06087",
+                        "text": "any_string_rSA",
+                        "open": true,
+                        "meta": {
+                            "type": "ANY",
+                            "required": false,
+                            "index": -1,
+                            "maxLength": 64
+                        },
+                        "children": [
+                            {
+                                "id": "f49c392e-baf9-4f90-8a19-7e8cb7b64c5f",
+                                "text": "path",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 0
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": false
+                                }
+                            },
+                            {
+                                "id": "4fac2a0b-d606-4758-af4a-80cb7dc68228",
+                                "text": "ensure",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 1
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": false
+                                }
+                            },
+                            {
+                                "id": "d0c0ea7d-388b-463e-aa66-e1a3ec7d5993",
+                                "text": "owner",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 2
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": false
+                                }
+                            },
+                            {
+                                "id": "e91d234c-df26-4b09-8d41-f7ccb7c79615",
+                                "text": "group",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 3
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": false
+                                }
+                            },
+                            {
+                                "id": "95493345-40bc-4c04-9c76-b5be353135b1",
+                                "text": "recurse",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": false,
+                                    "index": 4
+                                },
+                                "childrenMeta": {
+                                    "type": "BOOL",
+                                    "required": false
+                                }
+                            },
+                            {
+                                "id": "09904acf-05d5-4681-9414-8716f428bb41",
+                                "text": "source",
+                                "open": true,
+                                "meta": {
+                                    "type": "STRING",
+                                    "required": true,
+                                    "index": 5
+                                },
+                                "childrenMeta": {
+                                    "type": "STRING",
+                                    "required": true
+                                }
+                            }
+                        ],
+                        "childrenMeta": {
+                            "size": "6",
+                            "type": "HASH",
+                            "minSize": "6",
+                            "maxSize": "6",
+                            "required": false
+                        }
+                    }
+                ],
+                "childrenMeta": {
+                    "size": "1",
+                    "type": "HASH",
+                    "minSize": "1",
+                    "maxSize": "infinite",
+                    "required": false
+                }
+            }
+        ],
+        "childrenMeta": {
+            "size": "5"
+        }
+    }
+]

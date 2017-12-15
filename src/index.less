@@ -1,0 +1,99 @@
+html,
+body,
+#root,
+.app {
+  height: 100%;
+}
+
+body {
+  background: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.cm-layout-header {
+  color: rgba(0, 0, 0, 0.65);
+  background: #fff;
+  padding: 0 20px;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+.menu-collapse{
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.app{
+  >.cm-layout{
+    >.cm-layout-sider{
+      background: #fff;
+      border-right: 1px solid #e7e7e7;
+    }
+  }
+}
+.logo{
+  height: 64px;
+  line-height: 64px;
+  font-size: 24px;
+  color: #fff;
+}
+
+.cm-layout {
+  background: #fff;
+}
+
+.main-container {
+  padding: 30px;
+}
+
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+.cm-menu{
+  box-shadow: none;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-leave {
+  opacity: 1;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.card-row{
+  margin-left: -10px;
+  margin-right: -10px;
+  .card-col{
+    padding: 0 10px;
+  }
+}
+
+.font30{
+  font-size: 30px;
+}
+
+.trend{
+  height: 45px;
+  padding-top: 20px;
+  &.has-chart{
+    padding-top: 0;
+  }
+}
