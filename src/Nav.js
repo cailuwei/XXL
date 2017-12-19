@@ -16,7 +16,7 @@ class Nav extends PureComponent {
 
     state = {
         collapse: false
-    }
+    };
 
     setCollapse (collapse) {
         this.setState({
@@ -48,7 +48,7 @@ class Nav extends PureComponent {
             if (menuItem.link) {
                 const icon = menuItem.icon ? <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
                 return <Menu.Item key={this.menuIndex} identify={menuItem.identify} href={menuItem.link}>
-                    {icon}{this.state.collapse ? '' : menuItem.text}
+                    {icon} {this.state.collapse ? '' : menuItem.text}
                 </Menu.Item>;
             } else {
                 return <SubMenu key={this.menuIndex} title={menuItem.icon ? <span><FontIcon icon={menuItem.icon}></FontIcon>{this.state.collapse ? '' : menuItem.text}</span>
@@ -66,7 +66,7 @@ class Nav extends PureComponent {
             if (menuItem.link) {
                 const icon = menuItem.icon ? <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
                 return <Menu.Item key={this.menuIndex} identify={menuItem.identify} href={menuItem.link}>
-                    {icon}{menuItem.text}
+                    {icon} {menuItem.text}
                 </Menu.Item>;
             } else {
                 return <MenuItemGroup key={this.menuIndex} title={menuItem.text}>
@@ -82,7 +82,7 @@ class Nav extends PureComponent {
             if (menuItem.link) {
                 const icon = menuItem.icon ? <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
                 return <Menu.Item key={this.menuIndex} identify={menuItem.identify} href={menuItem.link}>
-                    {icon}{menuItem.text}
+                    {icon} {menuItem.text}
                 </Menu.Item>;
             } else {
                 return null;

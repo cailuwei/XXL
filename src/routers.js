@@ -5,6 +5,12 @@ import { Route } from 'react-router-dom';
 const routers = [];
 
 const DashboardAnalysis = asyncComponent(() => import('./pages/dashboard/analysis'));
+const TaskIndex = asyncComponent(() => import('./pages/task/index'));
+const LogTask = asyncComponent(() => import('./pages/log/task'));
+const LogJob = asyncComponent(() => import('./pages/log/job'));
+const JobCreate = asyncComponent(() => import('./pages/job/create'));
+const Job = asyncComponent(() => import('./pages/job/list'));
+const ModuleCreate = asyncComponent(() => import('./pages/module/create'));
 const DashboardMonitor = asyncComponent(() => import('./pages/dashboard/monitor'));
 const DashboardWorkbench = asyncComponent(() => import('./pages/dashboard/workbench'));
 const FormBase = asyncComponent(() => import('./pages/form/base'));
@@ -14,6 +20,12 @@ const XYF = asyncComponent(() => import('./pages/xyf/index'));
 const Profile = asyncComponent(() => import('./pages/profile/index'));
 
 routers.push(<Route key='analysis' path='/dashboard/analysis' component={DashboardAnalysis} />);
+routers.push(<Route key='task' path='/task/index' component={TaskIndex} />);
+routers.push(<Route key='logtask' path='/log/task' component={LogTask} />);
+routers.push(<Route key='logjob' path='/log/job' component={LogJob} />);
+routers.push(<Route key='job' path='/job/list' component={Job} />);
+routers.push(<Route key='jobcreate' path='/job/create' component={JobCreate} />);
+routers.push(<Route key='module' path='/module/create' component={ModuleCreate} />);
 routers.push(<Route key='monitor' path='/dashboard/monitor' component={DashboardMonitor} />);
 routers.push(<Route key='workbench' path='/dashboard/workbench' component={DashboardWorkbench} />);
 routers.push(<Route key='formbase' path='/form/base' component={FormBase} />);

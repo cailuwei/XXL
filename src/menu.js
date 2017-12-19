@@ -1,11 +1,24 @@
 export default [
-    {text: 'Dashboard', icon: 'tachometer', children: [
-        {text: '分析页', link: 'dashboard/analysis'},
-        {text: '监控页', link: 'dashboard/monitor'},
-        {text: '工作台', link: 'dashboard/workbench'}
+    {text: '任务管理', icon: 'futbol-o', children: [
+        {text: '任务管理', link: 'task/index'}
+    ]},
+    {text: '日志', icon: 'futbol-o', children: [
+        {text: '任务日志', link: 'log/task'},
+        {text: 'job日志', link: 'log/job'}
+    ]},
+    {text: 'job管理', icon: 'tachometer', children: [
+        {text: '查看job', link: 'job/list'},
+        {text: '新增job', link: 'job/create'}
+    ]},
+    {text: '组件管理', icon: 'tachometer', children: [
+        {text: '新增组件', link: 'module/create'}
     ]},
     {text: '表单页', icon: 'th', children: [
         {text: '基础表单', link: 'form/base'},
+        {text: '高级表单', link: 'form/advanced'}
+    ]},
+    {text: 'dashboard', icon: 'th', children: [
+        {text: 'dashboard', link: 'dashboard/analysis'},
         {text: '高级表单', link: 'form/advanced'}
     ]},
     {text: '系统监控', icon: 'code', children: [

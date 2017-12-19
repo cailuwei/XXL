@@ -25,7 +25,7 @@ class BaseForm extends React.Component {
 
     saveFormRef = (ref) => {
         this.form = ref;
-    }
+    };
 
     save = () => {
         if (this.form.isValid()) {
