@@ -46,32 +46,24 @@ export default class Task {
         return toJS(this.taskInfo);
     }
 
-    getTaskDetailInfo (url, taskId, callback) {
-        this.setTaskInfo({
-            'taskName': 'asd',
-            'taskType': '',
-            'taskDescription': '',
-            'manager': '',
-            'startTime': '',
-            'timeType': '',
-            'cron': ''
-        });
-        // this.setFetchBegin();
-        // const resp = await fetch(urls['info'], {taskId});
-        // // if (resp.successSign) {
-        // this.setTaskInfo({
-        //     'taskName': 'asdasd',
-        //     'taskType': '',
-        //     'taskDescription': '',
-        //     'manager': '',
-        //     'startTime': '',
-        //     'timeType': '',
-        //     'cron': ''
-        // });
-        // this.setFetchDone();
-        // console.log(2222);
-        // // }
-        // callback ? callback() : null;
+    async getTaskDetailInfo (taskId) {
+        this.setFetchBegin();
+        const resp = await fetch(this.urls['info'], {taskId});
+        // if (resp.successSign) {
+        window.setTimeout(()=>{
+            this.setTaskInfo({
+                'taskName': 'asdasd',
+                'taskType': '',
+                'taskDescription': '',
+                'manager': '',
+                'startTime': '',
+                'timeType': '',
+                'cron': ''
+            });
+            this.setFetchDone();
+        },1000);
+
+
     }
 
     @action

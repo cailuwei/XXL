@@ -145,8 +145,7 @@ class BaseForm extends React.Component {
         return <Dialog key={'edit-${task.editTaskType}'}
             title='编辑' ref={(ref) => this.edit = ref}
             hasFooter
-            onConfirm={this.handlerSave} >
-            <Edit data={{}} />
+            onConfirm={this.handlerSave} content={<Edit data={task.taskInfo} spinning={task.isFetching}/>}>
         </Dialog>;
     }
 
