@@ -3,7 +3,7 @@ import fetch from 'r-cmui/components/utils/fetch';
 
 useStrict(true); // 使用严格模式
 
-export default class Task {
+export default class Job {
 
     urls = {
         'info': 'http://172.18.34.66:8415/mock/xxl/taskManage/detail',
@@ -11,13 +11,13 @@ export default class Task {
     };
 
     // @observable 监听数据变化
-    @observable taskType = '0';
+    @observable jobType = '0';
 
     @observable isFetching = false;
 
-    @observable editTaskType = '0';
+    @observable editJobType = '0';
 
-    @observable taskInfo = {
+    @observable jobInfo = {
         'taskName': '',
         'taskType': '',
         'taskDescription': '',
@@ -34,24 +34,24 @@ export default class Task {
         ];
     }
 
-    getTaskType () {
-        return this.taskType;
+    getJobType () {
+        return this.jobType;
     }
 
-    getEditTaskType () {
-        return this.editTaskType;
+    getEdiJobType () {
+        return this.editJobType;
     }
 
-    getTaskInfo () {
-        return toJS(this.taskInfo);
+    getJobInfo () {
+        return toJS(this.jobInfo);
     }
 
-    async getTaskDetailInfo (taskId) {
+    async getJobDetailInfo (taskId) {
         this.setFetchBegin();
         const resp = await fetch(this.urls['info'], {taskId});
         // if (resp.successSign) {
         window.setTimeout(()=>{
-            this.setTaskInfo({
+            this.setJobInfo({
                 'taskName': 'asdasd',
                 'taskType': '',
                 'taskDescription': '',
@@ -78,18 +78,18 @@ export default class Task {
 
     // @action 动作，用与改变状态，且严格模式下状态只能有动作改变
     @action
-    handlerTaskTypeChange (value) {
-        this.taskType = value;
+    handlerJobTypeChange (value) {
+        this.jobType = value;
     }
 
     @action
-    handlerEditTaskTypeChange (value) {
-        this.editTaskType = value;
+    handlerEditJobTypeChange (value) {
+        this.editJobType = value;
     }
 
     @action
-    setTaskInfo (data) {
-        this.taskInfo = data;
+    setJobInfo (data) {
+        this.jobInfo = data;
     }
 }
 

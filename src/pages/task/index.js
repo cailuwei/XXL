@@ -18,17 +18,19 @@ class BaseForm extends React.Component {
     displayName = 'BaseForm';
 
     urls = {
-        'list': 'http://192.168.105.202:8415/mock/xxl/taskManage/list',
-        'delete': 'http://192.168.105.202:8415/mock/xxl/taskManage/delete',
-        'start': 'http://192.168.105.202:8415/mock/xxl/taskManage/start',
-        'save': 'http://192.168.105.202:8415/mock/xxl/taskManage/save'
+        'list': 'http://172.18.34.66:8415/mock/xxl/taskManage/list',
+        'delete': 'http://172.18.34.66:8415/mock/xxl/taskManage/delete',
+        'start': 'http://172.18.34.66:8415/mock/xxl/taskManage/start',
+        'save': 'http://172.18.34.66:8415/mock/xxl/taskManage/save'
     };
 
     handlerEdit = async (taskId) => {
         const task = this.props.task;
+        /*异步请求编辑信息*/
         task.getTaskDetailInfo(taskId, () => {
             console.log(33333);
         });
+        /*打开编辑框*/
         this.edit.open();
     }
 
