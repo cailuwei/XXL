@@ -19,7 +19,6 @@ class BaseForm extends React.Component {
         select : null
     };
 
-
     save = () => {
         if (this.form.isValid()) {
             const params = this.form.getFormParams();
