@@ -15,8 +15,9 @@ import Edit from './create';
 @inject('dashboard')
 @inject('job')    // 链接store，使得stores可以作为组建的props使用
 @observer          // 确保任何组件渲染中使用的数据变化时都可以强制刷新组件
-class BaseForm extends React.Component {
-    displayName = 'BaseForm';
+class List extends React.Component {
+    displayName = 'List';
+    chooseTaskId = '';
 
     urls = {
         'list': 'http://172.18.34.66:8415/mock/xxl/taskManage/list',
@@ -24,6 +25,19 @@ class BaseForm extends React.Component {
         'start': 'http://172.18.34.66:8415/mock/xxl/taskManage/start',
         'save': 'http://172.18.34.66:8415/mock/xxl/taskManage/save'
     };
+
+    choose = async (flag) => {
+        if (flag) {
+            this.handlerCreate();
+        }else {
+            this.handlerEdit(this.chooseTaskId)
+        }
+    }
+
+    openEditTip = (taskId) => {
+        this.chooseTaskId = taskId;
+        this.editTip.open();
+    }
 
     handlerEdit = async (taskId) => {
         const job = this.props.job;
@@ -35,9 +49,15 @@ class BaseForm extends React.Component {
         this.edit.open();
     }
 
+    handlerCreate = () => {
+        const job = this.props.job;
+        job.setJobInfo();
+        this.edit.open();
+    };
+
     renderButtons(row) {
         return (<span>
-                <Button theme='primary'  size='small' className='mr-5' data-id="'+row.id+'" onClick={this.handlerEdit.bind(this, row.taskId)}>编辑</Button>
+                <Button theme='primary'  size='small' className='mr-5' data-id="'+row.id+'" onClick={this.openEditTip.bind(this, row.taskId)}>编辑</Button>
                 <Button theme='default'  size='small' className='mr-5' data-id="'+row.id+'">运行模式内容修改</Button>
                 <Button theme='danger'  size='small' className='mr-5' data-id="'+row.id+'">删除</Button>
             </span>)
@@ -74,6 +94,17 @@ class BaseForm extends React.Component {
         </Dialog>;
     }
 
+    renderEditTipModal () {
+        return <Dialog
+            key={'edit-tip-${job.editJobType}'}
+            title='提示'
+            ref={(ref) => this.editTip = ref}
+            hasFooter
+            onConfirm={this.choose}
+            content={"是否新增job"}>
+        </Dialog>;
+    }
+
     render () {
         // const doday = moment().format('YYYY-MM-DD');
         return (
@@ -85,9 +116,10 @@ class BaseForm extends React.Component {
                 <Card className='mt-30'>
                     {this.renderTable()}
                     {this.renderEditModal()}
+                    {this.renderEditTipModal()}
                 </Card>
             </div>
         );
     }
 }
-export default BaseForm;
+export default List;

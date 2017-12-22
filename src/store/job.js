@@ -52,13 +52,11 @@ export default class Job {
         // if (resp.successSign) {
         window.setTimeout(()=>{
             this.setJobInfo({
-                'taskName': 'asdasd',
-                'taskType': '',
-                'taskDescription': '',
-                'manager': '',
-                'startTime': '',
-                'timeType': '',
-                'cron': ''
+                'jobId': '0',
+                'description': 'description',
+                'leader': 'clw',
+                'route': '1',
+                'run': '1'
             });
             this.setFetchDone();
         },1000);
