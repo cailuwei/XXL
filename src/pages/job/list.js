@@ -15,8 +15,8 @@ import Edit from './create';
 @inject('dashboard')
 @inject('job')    // 链接store，使得stores可以作为组建的props使用
 @observer          // 确保任何组件渲染中使用的数据变化时都可以强制刷新组件
-class BaseForm extends React.Component {
-    displayName = 'BaseForm';
+class List extends React.Component {
+    displayName = 'List';
     chooseTaskId = '';
 
     urls = {
@@ -122,4 +122,4 @@ class BaseForm extends React.Component {
         );
     }
 }
-export default BaseForm;
+export default List;
