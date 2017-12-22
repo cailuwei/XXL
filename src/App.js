@@ -90,7 +90,7 @@ class App extends React.Component {
         return (
             <Layout className='app'>
                 <Sider ref='sider'>
-                    <div className='text-center logo'>{this.state.collapse ? 'CMUI' : 'CMUI v2.0.1'}</div>
+                    <div className='text-center logo'>{'XXL'}</div>
                     <Nav ref='nav'/>
                 </Sider>
                 <Layout style={{background: '#f0f2f5'}}>
