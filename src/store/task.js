@@ -53,8 +53,8 @@ export default class Task {
         window.setTimeout(()=>{
             this.setTaskInfo({
                 'taskName': 'asdasd',
-                'taskType': '',
-                'taskDescription': '',
+                'taskType': '111',
+                'taskDescription': '111',
                 'manager': '',
                 'startTime': '',
                 'timeType': '',
