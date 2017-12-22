@@ -17,7 +17,7 @@ import Edit from './create';
 @observer          // 确保任何组件渲染中使用的数据变化时都可以强制刷新组件
 class List extends React.Component {
     displayName = 'List';
-    chooseTaskId = '';
+    chooseTaskId = 'test';
 
     urls = {
         'list': 'http://172.18.34.66:8415/mock/xxl/taskManage/list',
