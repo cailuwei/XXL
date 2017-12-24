@@ -41,7 +41,6 @@ import Dropdown from 'r-cmui/components/Dropdown';
 import Menu from 'r-cmui/components/Menu';
 import Nav from './Nav';
 import routers from './routers';
-import {CSSTransitionGroup} from 'react-transition-group';
 const {Header, Content} = Layout;
 const {Item, Divider} = Menu;
 
@@ -105,16 +104,10 @@ class App extends React.Component {
                     </Header>
                     <Content>
                         <div className='main-container'>
-                            <CSSTransitionGroup
-                                transitionName='fade'
-                                transitionEnterTimeout={500}
-                                transitionLeaveTimeout={500}
-                            >
-                                {routers}
-                            </CSSTransitionGroup>
-                            <div className='mt-50 mb-30'>
+                            {routers}
+                            {/* <div className='mt-50 mb-30'>
                                 <div className='text-center'>Copyright <i className='fa fa-copyright'></i> 2017 cqb</div>
-                            </div>
+                            </div> */}
                         </div>
                     </Content>
                 </Layout>

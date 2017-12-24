@@ -334,7 +334,7 @@ class Select extends BaseComponent {
 
     _renderFilter () {
         if (this.props.filter) {
-            return <Input onKeyUp={this.filter}></Input>;
+            return <Input onKeyUp={this.filter} ref={(f) => { this.filterInputField = f ; }}></Input>;
         } else {
             return null;
         }
@@ -733,7 +733,7 @@ class Select extends BaseComponent {
                 <div className='cm-select-options-wrap'>
                     <div ref='options' className='cm-select-options'>
                         {filter}
-                        <ul>{childrenOptions} {options}</ul>
+                        <ul>{childrenOptions}{options}</ul>
                     </div>
                 </div>
             </div>

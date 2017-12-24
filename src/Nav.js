@@ -27,12 +27,19 @@ class Nav extends PureComponent {
     }
 
     gotoPage (item) {
-        window.location.hash = item.props.href;
-        store.set('cmui-lastSelectKey', item.getKey());
+        if (this._init) {
+            const url = store.get('xxl-lastVisitURL');
+            window.location.hash = url;
+            this._init = false;
+        } else {
+            window.location.hash = item.props.href;
+            store.set('xxl-lastSelectKey', item.getKey());
+        }
     }
 
     componentDidMount () {
-        const key = store.get('cmui-lastSelectKey');
+        this._init = true;
+        const key = store.get('xxl-lastSelectKey');
         if (key) {
             window.setTimeout(() => {
                 this.refs.menu.selectItem(key);
