@@ -16,10 +16,15 @@ import stores from './store/index';
 import 'r-cmui/styles/theme.less';
 import 'r-cmui/styles/font-awesome.min.css';
 import './index.less';
+import store from 'store';
 
 const browserHistory = createHashHistory();
 
 syncHistoryWithStore(browserHistory, stores.routing);
+
+stores.routing.history.listen((location) => {
+    store.set('xxl-lastVisitURL', location.pathname);
+});
 
 ReactDOM.render(
     <Provider {...stores}>
