@@ -7,8 +7,7 @@ export default [
         {text: 'job日志', link: 'log/job'}
     ]},
     {text: 'job管理', icon: 'tachometer', children: [
-        {text: '查看job', link: 'job/list'},
-        {text: '新增job', link: 'job/create'}
+        {text: 'job列表', link: 'job/list'}
     ]},
     {text: '执行管理器', icon: 'tachometer', link: 'actuator/index'},
     {text: '组件管理', icon: 'tachometer', children: [
