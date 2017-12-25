@@ -1,69 +1,43 @@
 import {useStrict, observable, action, toJS} from 'mobx';
 import fetch from 'r-cmui/components/utils/fetch';
+import API from '../configs/api';
 
 useStrict(true); // 使用严格模式
 
 export default class Job {
-
-    urls = {
-        'info': 'http://172.18.34.66:8415/mock/xxl/taskManage/detail',
-        'log': 'http://172.18.34.66:8415/mock/xxl/taskManage/log'
+    orignData = {
+        actuator: '',
+        desc: '',
+        person: '',
+        strategy: '',
+        runMode: ''
     };
+    @observable initFormData;
+    @observable jobInfo = {};
 
-    // @observable 监听数据变化
-    @observable jobType = '0';
-
-    @observable isFetching = false;
-
-    @observable editJobType = '0';
-
-    @observable jobInfo = {
-        'taskName': '',
-        'taskType': '',
-        'taskDescription': '',
-        'manager': '',
-        'startTime': '',
-        'timeType': '',
-        'cron': ''
-    };
-
-    getSelectData () {
-        return [
-            {id: '0', text: 'cron'},
-            {id: '1', text: '单次任务'}
-        ];
+    async putJob (params) {
+        const ret = fetch(API.JOB.ADD_JOB, params, 'post');
+        return ret;
     }
 
-    getJobType () {
-        return this.jobType;
+    async deleteJob (id) {
+        const ret = fetch(API.JOB.DELETE_JOB, {id});
+        return ret;
     }
 
-    getEdiJobType () {
-        return this.editJobType;
+    async fetchJobInfo (id) {
+        const info = await fetch(API.JOB.GET_JOB, {id});
+        this.setJobInfo(info);
     }
 
-    getJobInfo () {
-        return toJS(this.jobInfo);
+    async updateJob (params) {
+        const ret = fetch(API.JOB.UPDATE_JOB, params, 'post');
+        return ret;
     }
 
-    async getJobDetailInfo (taskId) {
-        this.setFetchBegin();
-        const resp = await fetch(this.urls['info'], {taskId});
-        // if (resp.successSign) {
-        window.setTimeout(()=>{
-            this.setJobInfo({
-                'taskName': 'asdasd',
-                'taskType': '',
-                'taskDescription': '',
-                'manager': '',
-                'startTime': '',
-                'timeType': '',
-                'cron': ''
-            });
-            this.setFetchDone();
-        },1000);
-
-
+    @action
+    initAddFormData () {
+        this.initFormData = JSON.parse(JSON.stringify(this.orignData));
     }
 
     @action
@@ -74,17 +48,6 @@ export default class Job {
     @action
     setFetchDone () {
         this.isFetching = false;
-    }
-
-    // @action 动作，用与改变状态，且严格模式下状态只能有动作改变
-    @action
-    handlerJobTypeChange (value) {
-        this.jobType = value;
-    }
-
-    @action
-    handlerEditJobTypeChange (value) {
-        this.editJobType = value;
     }
 
     @action
