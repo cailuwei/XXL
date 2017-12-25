@@ -11,7 +11,7 @@ import fetch from 'r-cmui/components/utils/fetch';
 
 import Edit from './edit';
 
-@inject('dashboard')
+@inject('routing')
 @inject('task')    // 链接store，使得stores可以作为组建的props使用
 @observer          // 确保任何组件渲染中使用的数据变化时都可以强制刷新组件
 class BaseForm extends React.Component {
@@ -26,23 +26,23 @@ class BaseForm extends React.Component {
 
     handlerEdit = async (taskId) => {
         const task = this.props.task;
-        /*异步请求编辑信息*/
+        /* 异步请求编辑信息*/
         task.getTaskDetailInfo(taskId, () => {
             console.log(33333);
         });
-        /*打开编辑框*/
+        /* 打开编辑框*/
         this.edit.open();
     }
 
     handlerStartUp = async (taskId) => {
-        const resp = await fetch(this.urls['start'], {taskId: taskId});
+        const resp = await fetch(this.urls['start'], {taskId});
         if (resp.successSign) {
             this.refs.tip.show('启动成功！');
         }
     }
 
     handlerDelete = async (taskId) => {
-        const resp = await fetch(this.urls['delete'], {taskId: taskId});
+        const resp = await fetch(this.urls['delete'], {taskId});
         if (resp.successSign) {
             this.refs.tip.show('删除成功！');
         }
@@ -56,8 +56,9 @@ class BaseForm extends React.Component {
         this.log.open();
     }
 
-    handlerTaskIns = async (taskId) => {
-        console.log(taskId);
+    handlerTaskIns (taskId) {
+        const {push} =  this.props.routing;
+        push(`/schedule/index/${taskId}`);
     }
 
     handlerSave = async (flag) => {
@@ -78,19 +79,19 @@ class BaseForm extends React.Component {
         task.handlerTaskTypeChange(value);
     }
 
-    renderButtons(row) {
+    renderButtons (row) {
         return (<span>
             <Button theme='primary' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerStartUp.bind(this, row.taskId)}>启动</Button>
+                onClick={this.handlerStartUp.bind(this, row.taskId)}>启动</Button>
             <Button theme='primary' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerLog.bind(this, row.taskId)}>日志</Button>
+                onClick={this.handlerLog.bind(this, row.taskId)}>日志</Button>
             <Button theme='primary' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerEdit.bind(this, row.taskId)}>编辑</Button>
+                onClick={this.handlerEdit.bind(this, row.taskId)}>编辑</Button>
             <Button theme='danger' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerDelete.bind(this, row.taskId)}>删除</Button>
+                onClick={this.handlerDelete.bind(this, row.taskId)}>删除</Button>
             <Button theme='primary' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerTaskIns.bind(this, row.taskId)}>组件管理</Button>
-        </span>)
+                onClick={this.handlerTaskIns.bind(this, row.taskId)}>组件管理</Button>
+        </span>);
     }
 
     renderCronTable () {
@@ -153,8 +154,8 @@ class BaseForm extends React.Component {
 
     renderLogModal () {
         return <Dialog key={'log'}
-                       title='查看日志'
-                       ref={(ref) => this.log = ref} >
+            title='查看日志'
+            ref={(ref) => this.log = ref} >
             <p>@@@@@@@@@@@@@@@@@@@@日志信息@@@@@@@@@@@@@@@@@</p>
         </Dialog>;
     }

@@ -10,6 +10,7 @@ export default [
         {text: '查看job', link: 'job/list'},
         {text: '新增job', link: 'job/create'}
     ]},
+    {text: '执行管理器', icon: 'tachometer', link: 'actuator/index'},
     {text: '组件管理', icon: 'tachometer', children: [
         {text: '新增组件', link: 'module/create'}
     ]},
