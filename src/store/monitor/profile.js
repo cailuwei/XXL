@@ -14,7 +14,7 @@ export default class Profile {
     @observable loadOption = {};
 
     async getLoadChartData () {
-        const data = await fetch('http://192.168.105.202:8415/mock/cdn-ops/summary/info/load', toJS(this.searchParams));
+        const data = await fetch('http://172.18.34.66:8415/mock/cdn-ops/summary/info/load', toJS(this.searchParams));
 
         const unit = this.searchParams.unit;
         const y = [];

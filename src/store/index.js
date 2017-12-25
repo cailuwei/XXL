@@ -4,6 +4,9 @@ import UserStore from './user';
 import Monitor from './monitor';
 import Dashboard from './dashboard';
 import Task from './task';
+import Job from './job';
+import Actuator from './actuator';
+import Schedule from './schedule';
 
 const stores = {
     // Key can be whatever you want
@@ -11,7 +14,10 @@ const stores = {
     user: new UserStore(),
     monitor: new Monitor(),
     dashboard: new Dashboard(),
-    task: new Task()
+    task: new Task(),
+    job: new Job(),
+    actuator: new Actuator(),
+    schedule: new Schedule()
 };
 
 export default stores;

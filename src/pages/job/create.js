@@ -12,13 +12,23 @@ import 'r-cmui/components/DateRange';
 import 'r-cmui/components/TextArea';
 import 'r-cmui/components/RadioGroup';
 
+import Spin from 'r-cmui/components/Spin';
+const {SVGSpin} = Spin;
+
+import 'r-cmui/components/Input';
+import 'r-cmui/components/Select';
+import 'r-cmui/components/DateRange';
+
 class BaseForm extends React.Component {
     displayName = 'BaseForm';
 
-    state = {
-        select : null
-    };
+    constructor (props) {
+        super(props);
 
+        this.state = {
+            type: this.props.data['taskType']
+        };
+    }
 
     save = () => {
         if (this.form.isValid()) {
@@ -28,41 +38,29 @@ class BaseForm extends React.Component {
         }
     };
 
-    handleProvinceChange = ( value ) => {
-        this.setState({ select : value });
-    };
+    handleProvinceChange (value) {
+        this.setState({
+            type: value
+        });
+    }
 
     render () {
         return (
-            <div>
-                <Breadcrumb>
-                    <Breadcrumb.Item>job管理</Breadcrumb.Item>
-                    <Breadcrumb.Item>新增job</Breadcrumb.Item>
-                </Breadcrumb>
-
-                <Card className='mt-30'>
+        <SVGSpin spinning={this.props.spinning}>
+            <div style={{width: 500}}>
+                <Form ref={this.saveFormRef} ajax action='xxx' method='post' data={this.props.data} labelWidth={120} tiled useDefaultSubmitBtn={false}>
                     <Row>
-                        <Col grid={{width: 0.6, offset: 0.2}}>
-                            <Form ref={this.saveFormRef} ajax action='xxx' method='post' labelWidth={120} tiled useDefaultSubmitBtn={false}>
-                                <Row>
-                                    <Col grid={{width: 0.5 , offset: 0.2}}>
-                                        <FormControl name='title' label='执行号:' type='select' placeholder='执行号' data={[{id: "0", text: "cron"},{id: "1", text: "单次任务"}]} required/>
-                                        <FormControl name='startEndDate' label='job描述:' type='textarea' required height={100}/>
-                                        <FormControl name='type' type='text' label='负责人:'/>
-                                        <FormControl name='title' label='路由策略:' type='select' placeholder='路由策略' data={[{id: "0", text: "cron"},{id: "1", text: "单次任务"}]} required/>
-                                        <FormControl name='title' label='运行模式:' type='select' placeholder='运行模式' data={[{id: "0", text: "cron"},{id: "1", text: "单次任务"}]} required/>
-                                    </Col>
-                                </Row>
-                            </Form>
-
-                            <div className='text-center mt-40'>
-                                <Button theme='primary' className='mr-25' onClick={this.save}>保 存</Button>
-                                <Button theme='default' className='ml-25'>取 消</Button>
-                            </div>
+                        <Col grid={{width: 0.5 , offset: 0.2}}>
+                            <FormControl name='jobId' label='执行号:' type='select' placeholder='执行号' data={[{id: "0", text: "cron"},{id: "1", text: "单次任务"}]} required/>
+                            <FormControl name='description' label='job描述:' type='textarea' required height={100}/>
+                            <FormControl name='leader' type='text' label='负责人:'/>
+                            <FormControl name='route' label='路由策略:' type='select' placeholder='路由策略' data={[{id: "0", text: "cron"},{id: "1", text: "单次任务"}]} required/>
+                            <FormControl name='run' label='运行模式:' type='select' placeholder='运行模式' data={[{id: "0", text: "cron"},{id: "1", text: "单次任务"}]} required/>
                         </Col>
                     </Row>
-                </Card>
+                </Form>
             </div>
+        </SVGSpin>
         );
     }
 }

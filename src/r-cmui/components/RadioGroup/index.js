@@ -124,21 +124,13 @@ class RadioGroup extends BaseComponent {
             return;
         }
 
-        if (this._lastChecked) {
-            this._lastChecked.setChecked(false, () => {
-                this.items.forEach((theItem) => {
-                    if (theItem.isChecked()) {
-                        this._lastChecked = theItem;
-                    }
-                });
-            });
-        } else {
-            this.items.forEach((theItem) => {
-                if (theItem.isChecked()) {
-                    this._lastChecked = theItem;
-                }
-            });
-        }
+        this.items.forEach((theItem) => {
+            if (theItem.getValue() == value) {
+                theItem.setChecked(true);
+            } else {
+                theItem.setChecked(false);
+            }
+        });
 
         this.handleTrigger(value);
     }
@@ -416,6 +408,6 @@ RadioGroup.propTypes = {
     onChange: PropTypes.func
 };
 
-FormControl.register(RadioGroup, 'radio', 'array');
+FormControl.register(RadioGroup, 'radio');
 
 export default RadioGroup;

@@ -1,0 +1,89 @@
+.cm-layout-content{
+    position: relative;
+}
+// .main-container{
+//     position: absolute;
+//     left: 0;
+//     right: 0;
+//     height: 100%;
+//     overflow: auto;
+//     box-sizing: border-box;
+//     padding: 0;
+// }
+.flow-item{
+    background-color: rgb(195, 220, 244);
+    cursor: pointer;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+
+    transition: background-color 300ms linear;
+
+    &.flow-item-active{
+        background-color: rgb(97, 177, 252);
+    }
+
+    &.flow-item-showTools{
+        .flow-item-tools{
+            display: block;
+            opacity: 1;
+        }
+    }
+}
+.flow-ratio{
+    font-size: 16px;
+    margin-top: 13px;
+    font-weight: bold;
+    color: #fff;
+    margin-left: 7px;
+    line-height: 14px;
+}
+.flow-item-name{
+    color: #216cc7;
+    width: 161px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 56px;
+    text-align: center;
+    margin-left: 7px;
+}
+
+.flow-item-tools{
+    width: 28px;
+    height: 56px;
+    position: absolute;
+    right: -30px;
+    top: 0;
+    text-align: center;
+    display: none;
+    transition: all 0.3s linear;
+    opacity: 0;
+    .fa{
+        display: block;
+        width: 28px;
+        height: 19px;
+        color: #0360AF;
+        font-size: 13px;
+        padding-top: 4px;
+        background-color: rgb(195, 220, 244);
+    }
+}
+.flow-details{
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 170px;
+    margin-left: -175px;
+    margin-top: -10px;
+    border-radius: 4px;
+}
+
+.link-form{
+    .cm-checkbox{
+        width: 100px;
+        display: inline-block;
+        white-space: nowrap;
+    }
+}

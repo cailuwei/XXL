@@ -11,36 +11,38 @@ import fetch from 'r-cmui/components/utils/fetch';
 
 import Edit from './edit';
 
-@inject('dashboard')
+@inject('routing')
 @inject('task')    // 链接store，使得stores可以作为组建的props使用
 @observer          // 确保任何组件渲染中使用的数据变化时都可以强制刷新组件
 class BaseForm extends React.Component {
     displayName = 'BaseForm';
 
     urls = {
-        'list': 'http://192.168.105.202:8415/mock/xxl/taskManage/list',
-        'delete': 'http://192.168.105.202:8415/mock/xxl/taskManage/delete',
-        'start': 'http://192.168.105.202:8415/mock/xxl/taskManage/start',
-        'save': 'http://192.168.105.202:8415/mock/xxl/taskManage/save'
+        'list': 'http://172.18.34.66:8415/mock/xxl/taskManage/list',
+        'delete': 'http://172.18.34.66:8415/mock/xxl/taskManage/delete',
+        'start': 'http://172.18.34.66:8415/mock/xxl/taskManage/start',
+        'save': 'http://172.18.34.66:8415/mock/xxl/taskManage/save'
     };
 
     handlerEdit = async (taskId) => {
         const task = this.props.task;
+        /* 异步请求编辑信息*/
         task.getTaskDetailInfo(taskId, () => {
             console.log(33333);
         });
+        /* 打开编辑框*/
         this.edit.open();
     }
 
     handlerStartUp = async (taskId) => {
-        const resp = await fetch(this.urls['start'], {taskId: taskId});
+        const resp = await fetch(this.urls['start'], {taskId});
         if (resp.successSign) {
             this.refs.tip.show('启动成功！');
         }
     }
 
     handlerDelete = async (taskId) => {
-        const resp = await fetch(this.urls['delete'], {taskId: taskId});
+        const resp = await fetch(this.urls['delete'], {taskId});
         if (resp.successSign) {
             this.refs.tip.show('删除成功！');
         }
@@ -54,9 +56,16 @@ class BaseForm extends React.Component {
         this.log.open();
     }
 
-    handlerTaskIns = async (taskId) => {
-        console.log(taskId);
+    handlerTaskIns (taskId) {
+        const {push} =  this.props.routing;
+        push(`/schedule/index/${taskId}`);
     }
+
+    handlerCreate = () => {
+        const task = this.props.task;
+        task.setTaskInfo();
+        this.edit.open();
+    };
 
     handlerSave = async (flag) => {
         if (flag) {
@@ -76,19 +85,19 @@ class BaseForm extends React.Component {
         task.handlerTaskTypeChange(value);
     }
 
-    renderButtons(row) {
+    renderButtons (row) {
         return (<span>
             <Button theme='primary' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerStartUp.bind(this, row.taskId)}>启动</Button>
+                onClick={this.handlerStartUp.bind(this, row.taskId)}>启动</Button>
             <Button theme='primary' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerLog.bind(this, row.taskId)}>日志</Button>
+                onClick={this.handlerLog.bind(this, row.taskId)}>日志</Button>
             <Button theme='primary' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerEdit.bind(this, row.taskId)}>编辑</Button>
+                onClick={this.handlerEdit.bind(this, row.taskId)}>编辑</Button>
             <Button theme='danger' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerDelete.bind(this, row.taskId)}>删除</Button>
+                onClick={this.handlerDelete.bind(this, row.taskId)}>删除</Button>
             <Button theme='primary' size='small' className='mr-5' data-id="'+row.id+'"
-                    onClick={this.handlerTaskIns.bind(this, row.taskId)}>组件管理</Button>
-        </span>)
+                onClick={this.handlerTaskIns.bind(this, row.taskId)}>组件管理</Button>
+        </span>);
     }
 
     renderCronTable () {
@@ -97,6 +106,9 @@ class BaseForm extends React.Component {
             {name: 'taskName', text: '任务名称'},
             {name: 'description', text: '描述'},
             {name: 'cron', text: 'cron'},
+            {name: 'timeType', text: '时间类型', format (value) {
+                return ['禁用', '激活'][value];
+            }},
             {name: 'manager', text: '负责人', style: {width: '150px'}},
             {
                 name: 'status', text: '状态', format (value) {
@@ -151,8 +163,8 @@ class BaseForm extends React.Component {
 
     renderLogModal () {
         return <Dialog key={'log'}
-                       title='查看日志'
-                       ref={(ref) => this.log = ref} >
+            title='查看日志'
+            ref={(ref) => this.log = ref} >
             <p>@@@@@@@@@@@@@@@@@@@@日志信息@@@@@@@@@@@@@@@@@</p>
         </Dialog>;
     }
@@ -168,11 +180,12 @@ class BaseForm extends React.Component {
 
                 <Card className='mt-30'>
                     <div className='search-wrap mb-10'>
-                        <label className='cm-button default cm-button-active'>任务类型</label>
+                        <label style={{'line-height':'18px','display':'inline-block','border':'1px solid #d9d9d9',padding:'4px',position:'relative',top:'1px','borderRight':'none'}}>任务类型</label>
                         <Select value='0'
                             name='taskType'
                             data={task.getSelectData()} className='searchItem'
                             onChange={this.handlerTaskTypeChange.bind(this)}/>
+                        <Button theme='primary' className='mr-5' style={{'float':'right'}} onClick={this.handlerCreate}>新增</Button>
                     </div>
                     {task.getTaskType() === '0' ? this.renderCronTable() : this.renderSingleTable()}
                 </Card>

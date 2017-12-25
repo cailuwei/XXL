@@ -221,7 +221,7 @@ class Profile extends React.Component {
             'minute': '5m', 'hour': '1h', 'day': '1d'
         };
 
-        const data = await fetch('http://192.168.105.202:8415/mock/cdn-ops/summary/info/load', {
+        const data = await fetch('http://172.18.34.66:8415/mock/cdn-ops/summary/info/load', {
             flag: false,
             type: 0,
             startTime: `${range[0]} 00:00:00`,

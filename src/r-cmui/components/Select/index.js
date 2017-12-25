@@ -334,7 +334,7 @@ class Select extends BaseComponent {
 
     _renderFilter () {
         if (this.props.filter) {
-            return <Input onKeyUp={this.filter}></Input>;
+            return <Input onKeyUp={this.filter} ref={(f) => { this.filterInputField = f ; }}></Input>;
         } else {
             return null;
         }
@@ -463,9 +463,9 @@ class Select extends BaseComponent {
         this.text = [];
         data.forEach((item) => {
             const text = item[textField];
-            const value = item[valueField];
+            const value = `${item[valueField]}`;
             const active = this.isActive(value);
-            const show = text.indexOf(this.state.filterKey) !== -1;
+            const show = text !== undefined ? `${text}`.indexOf(this.state.filterKey) !== -1 : true;
 
             let html = text;
             if (optionsTpl) {
@@ -733,7 +733,7 @@ class Select extends BaseComponent {
                 <div className='cm-select-options-wrap'>
                     <div ref='options' className='cm-select-options'>
                         {filter}
-                        <ul>{childrenOptions} {options}</ul>
+                        <ul>{childrenOptions}{options}</ul>
                     </div>
                 </div>
             </div>

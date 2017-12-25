@@ -36,7 +36,7 @@ class BaseForm extends React.Component {
                 </Breadcrumb>
 
                 <Card className='mt-30'>
-                    <SimpleListPage pagination columns={this.single} action='http://192.168.105.202:8415/mock/cdn/getOperatorList.html'></SimpleListPage>
+                    <SimpleListPage pagination columns={this.single} action='http://172.18.34.66:8415/mock/cdn/getOperatorList.html'></SimpleListPage>
                 </Card>
             </div>
         );

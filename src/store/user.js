@@ -16,7 +16,7 @@ export default class UserList {
     }
 
     async initList () {
-        let ret = await fetch('http://192.168.105.202:8415/mock/test/user/list');
+        let ret = await fetch('http://172.18.34.66:8415/mock/test/user/list');
         ret = await ret.json();
         this.init(ret);
     }

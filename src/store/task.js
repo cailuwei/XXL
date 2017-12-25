@@ -6,8 +6,8 @@ useStrict(true); // 使用严格模式
 export default class Task {
 
     urls = {
-        'info': 'http://192.168.105.202:8415/mock/xxl/taskManage/detail',
-        'log': 'http://192.168.105.202:8415/mock/xxl/taskManage/log'
+        'info': 'http://172.18.34.66:8415/mock/xxl/taskManage/detail',
+        'log': 'http://172.18.34.66:8415/mock/xxl/taskManage/log'
     };
 
     // @observable 监听数据变化
@@ -53,8 +53,8 @@ export default class Task {
         window.setTimeout(()=>{
             this.setTaskInfo({
                 'taskName': 'asdasd',
-                'taskType': '',
-                'taskDescription': '',
+                'taskType': '111',
+                'taskDescription': '111',
                 'manager': '',
                 'startTime': '',
                 'timeType': '',
