@@ -11,8 +11,9 @@ import Form from './Form';
 
 @inject('job')    // 链接store，使得stores可以作为组建的props使用
 @observer          // 确保任何组件渲染中使用的数据变化时都可以强制刷新组件
-class BaseForm extends React.Component {
-    displayName = 'BaseForm';
+class List extends React.Component {
+    displayName = 'List';
+    chooseTaskId = '';
 
     renderButtons (row) {
         return (<span>
@@ -123,6 +124,17 @@ class BaseForm extends React.Component {
         }
     }
 
+    renderEditTipModal () {
+        return <Dialog
+            key={'edit-tip-${job.editJobType}'}
+            title='提示'
+            ref={(ref) => this.editTip = ref}
+            hasFooter
+            onConfirm={this.choose}
+            content={"是否新增job"}>
+        </Dialog>;
+    }
+
     render () {
         const {job} = this.props;
         return (
@@ -154,4 +166,6 @@ class BaseForm extends React.Component {
         );
     }
 }
-export default BaseForm;
+
+export default List;
+
