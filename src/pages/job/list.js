@@ -13,7 +13,7 @@ import Form from './Form';
 @observer          // 确保任何组件渲染中使用的数据变化时都可以强制刷新组件
 class List extends React.Component {
     displayName = 'List';
-    chooseTaskId = '';
+    chooseTaskId = 'test';
 
     renderButtons (row) {
         return (<span>
