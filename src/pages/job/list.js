@@ -46,6 +46,7 @@ class List extends React.Component {
             console.log(33333);
         });
         /*打开编辑框*/
+
         this.edit.open();
     }
 

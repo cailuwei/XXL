@@ -60,6 +60,12 @@ class BaseForm extends React.Component {
         console.log(taskId);
     }
 
+    handlerCreate = () => {
+        const task = this.props.task;
+        task.setTaskInfo();
+        this.edit.open();
+    };
+
     handlerSave = async (flag) => {
         if (flag) {
             const form = this.edit.props.children;
@@ -99,6 +105,9 @@ class BaseForm extends React.Component {
             {name: 'taskName', text: '任务名称'},
             {name: 'description', text: '描述'},
             {name: 'cron', text: 'cron'},
+            {name: 'timeType', text: '时间类型', format (value) {
+                return ['禁用', '激活'][value];
+            }},
             {name: 'manager', text: '负责人', style: {width: '150px'}},
             {
                 name: 'status', text: '状态', format (value) {
@@ -170,11 +179,12 @@ class BaseForm extends React.Component {
 
                 <Card className='mt-30'>
                     <div className='search-wrap mb-10'>
-                        <label className='cm-button default cm-button-active'>任务类型</label>
+                        <label style={{'line-height':'18px','display':'inline-block','border':'1px solid #d9d9d9',padding:'4px',position:'relative',top:'1px','borderRight':'none'}}>任务类型</label>
                         <Select value='0'
                             name='taskType'
                             data={task.getSelectData()} className='searchItem'
                             onChange={this.handlerTaskTypeChange.bind(this)}/>
+                        <Button theme='primary' className='mr-5' style={{'float':'right'}} onClick={this.handlerCreate}>新增</Button>
                     </div>
                     {task.getTaskType() === '0' ? this.renderCronTable() : this.renderSingleTable()}
                 </Card>
