@@ -1,14 +1,10 @@
 import {useStrict, observable, action, toJS} from 'mobx';
 import fetch from 'r-cmui/components/utils/fetch';
+import API from '../configs/api';
 
 useStrict(true); // 使用严格模式
 
 export default class Task {
-
-    urls = {
-        'info': 'http://172.18.34.66:8415/mock/xxl/taskManage/detail',
-        'log': 'http://172.18.34.66:8415/mock/xxl/taskManage/log'
-    };
 
     // @observable 监听数据变化
     @observable taskType = '0';
@@ -17,7 +13,9 @@ export default class Task {
 
     @observable editTaskType = '0';
 
-    @observable taskInfo = {
+    @observable taskInfo = {};
+
+    @observable orignData = {
         'taskName': '',
         'taskType': '',
         'taskDescription': '',
@@ -38,19 +36,10 @@ export default class Task {
         return this.taskType;
     }
 
-    getEditTaskType () {
-        return this.editTaskType;
-    }
-
-    getTaskInfo () {
-        return toJS(this.taskInfo);
-    }
-
-    async getTaskDetailInfo (taskId) {
+    async fecthTaskDetail (taskId) {
         this.setFetchBegin();
-        const resp = await fetch(this.urls['info'], {taskId});
-        // if (resp.successSign) {
-        window.setTimeout(()=>{
+        const resp = await fetch(API.TASK['DETAIL'], {taskId});
+        if (resp && resp.success) {
             this.setTaskInfo({
                 'taskName': 'asdasd',
                 'taskType': '111',
@@ -61,11 +50,31 @@ export default class Task {
                 'cron': ''
             });
             this.setFetchDone();
-        },1000);
-
+        }
 
     }
 
+    async putTask (params) {
+        const ret = fetch(API.TASK['ADD'], params, 'post');
+        return ret;
+    }
+
+    async updateTask (params) {
+        const ret = fetch(API.TASK['EDIT'], params, 'post');
+        return ret;
+    }
+
+    async deleteTask (id) {
+        const ret = fetch(API.TASK['DELETE'], {id});
+        return ret;
+    }
+
+    async toggelTaskStatus (id) {
+        const ret = fetch(API.TASK['TOGGLE_STATUS'], {id});
+        return ret;
+    }
+
+    // @action 动作，用与改变状态，且严格模式下状态只能有动作改变
     @action
     setFetchBegin () {
         this.isFetching = true;
@@ -76,7 +85,6 @@ export default class Task {
         this.isFetching = false;
     }
 
-    // @action 动作，用与改变状态，且严格模式下状态只能有动作改变
     @action
     handlerTaskTypeChange (value) {
         this.taskType = value;
@@ -90,6 +98,11 @@ export default class Task {
     @action
     setTaskInfo (data) {
         this.taskInfo = data;
+    }
+
+    @action
+    initAddFormData () {
+        this.taskInfo = JSON.parse(JSON.stringify(this.orignData));
     }
 }
 

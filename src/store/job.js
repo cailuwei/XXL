@@ -14,6 +14,7 @@ export default class Job {
     };
     @observable initFormData;
     @observable jobInfo = {};
+    @observable isFetching = false;
 
     async putJob (params) {
         const ret = fetch(API.JOB.ADD_JOB, params, 'post');
@@ -26,8 +27,12 @@ export default class Job {
     }
 
     async fetchJobInfo (id) {
-        const info = await fetch(API.JOB.GET_JOB, {id});
-        this.setJobInfo(info);
+        this.setFetchBegin();
+        const resp = await fetch(API.JOB.GET_JOB, {id});
+        if (resp && resp.success) {
+            this.setJobInfo(resp.info);
+            this.setFetchDone();
+        }
     }
 
     async updateJob (params) {

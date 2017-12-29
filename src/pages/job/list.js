@@ -13,21 +13,12 @@ import Form from './Form';
 @observer          // 确保任何组件渲染中使用的数据变化时都可以强制刷新组件
 class List extends React.Component {
     displayName = 'List';
-    chooseTaskId = 'test';
 
-    renderButtons (row) {
-        return (<span>
-            <Button theme='primary'  size='small' className='mr-5' onClick={this.openEditDialog.bind(this, row.id)}>编辑</Button>
-            <Button theme='success'  size='small' className='mr-5' onClick={this.openNewTab.bind(this, row.id)}>运行模式内容修改</Button>
-            <Button theme='danger'  size='small' className='mr-5' onClick={this.openDeleteConfirm.bind(this, row.id)}>删除</Button>
-        </span>);
-    }
-
-    openNewTab (id) {
+    openNewTab(id) {
         window.open(`/code.html?id=${id}`);
     }
 
-    openDeleteConfirm (id) {
+    openDeleteConfirm(id) {
         this.deleteConfirm.show('确认删除该Job？');
         this.deleteConfirm.setData(id);
     }
@@ -47,34 +38,10 @@ class List extends React.Component {
         return true;
     }
 
-    renderTable () {
-        const cron = [
-            {name: 'jobId', text: 'job-id'},
-            {name: 'desc', text: 'job描述', style: {width: 400}},
-            {name: 'actuatorName', text: '执行器'},
-            {name: 'strategy', text: '路由策略'},
-            {name: 'runMode', text: '运行模式'},
-            {name: 'op', text: '操作', style:{ width:'250px'}, format: ( value, colunmn, row ) => {
-                return this.renderButtons(row);
-            }}
-        ];
-        return <SimpleListPage 
-            ref={(f) => this.table = f}
-            pagination
-            columns={cron}
-            action={API.JOB.SEARCH} />;
-    }
-
     openAddDialog = () => {
         this.addDialog.open();
         const {job} = this.props;
         job.initAddFormData();
-    }
-
-    openEditDialog (id) {
-        this.editDialog.open();
-        const {job} = this.props;
-        job.fetchJobInfo(id);
     }
 
     saveJob = (flag) => {
@@ -101,6 +68,11 @@ class List extends React.Component {
         }
     }
 
+    openEditDialog(id) {
+        this.editTip.open();
+        this.editTip.setData(id);
+    }
+
     saveEdit = (flag) => {
         if (flag) {
             if (this.editForm.isValid()) {
@@ -124,18 +96,62 @@ class List extends React.Component {
         }
     }
 
-    renderEditTipModal () {
+    chooseIsAdd(flag) {
+        if (flag) {
+            this.openAddDialog();
+        } else {
+            const id = this.editTip.getData();
+            this.editDialog.open();
+            const {job} = this.props;
+            job.fetchJobInfo(id);
+        }
+
+        return true;
+    }
+
+    renderEditTipModal() {
         return <Dialog
-            key={'edit-tip-${job.editJobType}'}
             title='提示'
             ref={(ref) => this.editTip = ref}
             hasFooter
-            onConfirm={this.choose}
-            content={"是否新增job"}>
+            onConfirm={this.chooseIsAdd.bind(this)}
+            content={"是否新建job来保存修改"}>
         </Dialog>;
     }
 
-    render () {
+    renderButtons(row) {
+        return (<span>
+            <Button theme='primary' size='small' className='mr-5'
+                    onClick={this.openEditDialog.bind(this, row.id)}>编辑</Button>
+            <Button theme='primary' size='small' className='mr-5'
+                    onClick={this.openNewTab.bind(this, row.id)}>脚本内容修改</Button>
+            <Button theme='danger' size='small' className='mr-5'
+                    onClick={this.openDeleteConfirm.bind(this, row.id)}>删除</Button>
+        </span>);
+    }
+
+    renderTable() {
+        const cron = [
+            {name: 'id', text: 'job-id'},
+            {name: 'jobDesc', text: 'job描述', style: {width: 400}},
+            {name: 'jobGroup', text: '执行器'},
+            {name: 'ExecutorRouteStrategyEnum', text: '路由策略'},
+            {name: 'runMode', text: '运行模式'},
+            {
+                name: 'op', text: '操作', style: {width: '250px'}, format: (value, colunmn, row) => {
+                return this.renderButtons(row);
+            }
+            }
+        ];
+
+        return <SimpleListPage
+            ref={(f) => this.table = f}
+            pagination
+            columns={cron}
+            action={API.JOB.SEARCH}/>;
+    }
+
+    render() {
         const {job} = this.props;
         return (
             <div>
@@ -151,14 +167,19 @@ class List extends React.Component {
                     {this.renderTable()}
                 </Card>
 
-                <Dialog ref={(f) => this.addDialog = f} title='新增Job' 
-                    content={<Form ref={(f) => this.addForm = f} data={job.initFormData}/>} onConfirm={this.saveJob}></Dialog>
+                <Dialog title='新增'
+                        ref={(ref) => this.addDialog = ref}
+                        content={<Form ref={(f) => this.addForm = f} data={job.initFormData}/>}
+                        onConfirm={this.saveJob}></Dialog>
+
                 <Dialog
-                    title='编辑Job'
+                    title='编辑'
                     ref={(ref) => this.editDialog = ref}
                     onConfirm={this.saveEdit}
-                    content={<Form ref={(f) => this.editForm = f} data={job.jobInfo} />}>
+                    content={<Form ref={(f) => this.editForm = f} data={job.jobInfo} spinning={job.isFetching}/>}>
                 </Dialog>
+
+                {this.renderEditTipModal()}
 
                 <MessageBox ref={(f) => this.deleteConfirm = f} title='提示' type='confirm' confirm={this.deleteJob}/>
                 <MessageBox ref={(f) => this.tip = f} title='提示'/>

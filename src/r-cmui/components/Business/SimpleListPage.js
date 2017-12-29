@@ -53,7 +53,12 @@ class SimpleListPage extends React.Component {
     getSearchParams (page, pageSize) {
         let params = {
             pageNum: page,
-            pageSize
+            pageSize,
+            /**
+             * cailuwei add 2017-12-29
+             * 新版ETL
+             */
+            start: (page - 1) * pageSize
         };
 
         const sort = [];

@@ -6,29 +6,37 @@ import SimpleListPage from 'r-cmui/components/Business/SimpleListPage';
 import 'r-cmui/components/DateRange';
 import 'r-cmui/components/TextArea';
 import 'r-cmui/components/RadioGroup';
+import API from '../../configs/api';
 
 class BaseForm extends React.Component {
-    displayName = 'BaseForm';
+    displayName = 'BaseForm'
 
-    state = {
-        select : true
-    };
+    checkLogInfo(id){
+        console.log(id);
+    }
 
-    single = [
-        {name: 'taskId', text: 'job-id', type: 'index', style:{ width:"70px" }},
-        {name: 'taskName', text: '执行时间'},
-        {name: 'description', text: '调度备注'},
-        {name: 'cron', text: '执行结果'},
-        {name: 'createTime', text: '执行参数'},
-        {name: 'op', text: '操作', style:{ width:"150px"}, format: function ( ) {
-            return <span>
-                <Button theme='default'  size='small' className='mr-5' data-id="'+row.id+'">日志</Button>
+    render() {
+        const single = [
+            {name: 'taskInstId', text: '实例Id'},
+            {name: 'id', text: 'job-id'},
+            {name: 'handleTime', text: '执行时间'},
+            {name: 'handleMsg', text: '调度备注'},
+            {
+                name: 'handleCode', text: '执行结果', format: (value) => {
+                return ['成功', '正在执行', '失败'][value+1];
+            }
+            },
+            {name: 'executorParam', text: '执行参数'},
+            {
+                name: 'op', text: '操作', style: {width: "150px"}, format: (value, column, row) => {
+                return <span>
+                <Button theme='primary' className='mr-5'
+                        onClick={this.checkLogInfo.bind(this, row.id)} >日志</Button>
             </span>;
-        }}
-    ];
+            }
+            }
+        ];
 
-    render () {
-        // const doday = moment().format('YYYY-MM-DD');
         return (
             <div>
                 <Breadcrumb>
@@ -36,10 +44,13 @@ class BaseForm extends React.Component {
                 </Breadcrumb>
 
                 <Card className='mt-30'>
-                    <SimpleListPage pagination columns={this.single} action='http://172.18.34.66:8415/mock/cdn/getOperatorList.html'></SimpleListPage>
+                    <SimpleListPage pagination
+                                    columns={single}
+                                    action={API.LOG['JOB_LIST']}/>
                 </Card>
             </div>
         );
     }
 }
+
 export default BaseForm;

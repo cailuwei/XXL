@@ -58,7 +58,7 @@ class Nav extends PureComponent {
                     {icon} {this.state.collapse ? '' : menuItem.text}
                 </Menu.Item>;
             } else {
-                return <SubMenu key={this.menuIndex} title={menuItem.icon ? <span><FontIcon icon={menuItem.icon}></FontIcon>{this.state.collapse ? '' : menuItem.text}</span>
+                return <SubMenu key={this.menuIndex} title={menuItem.icon ? <span><FontIcon icon={menuItem.icon}></FontIcon> {this.state.collapse ? '' : menuItem.text}</span>
                     : menuItem.text
                 }>
                     {this.renderSubMenu(menuItem.children)}

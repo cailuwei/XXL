@@ -8,7 +8,7 @@ import Button from 'r-cmui/components/Button';
 import API from '../../configs/api';
 import Form from './Form';
 
-import { inject, observer } from 'mobx-react';
+import {inject, observer} from 'mobx-react';
 
 @inject('actuator')
 @observer
@@ -19,19 +19,25 @@ class Actuator extends React.Component {
         {name: 'ordering', text: '排序'},
         {name: 'AppName', text: 'AppName'},
         {name: 'name', text: '名称'},
-        {name: 'registerType', text: '注册方式', format:(value) => {
+        {
+            name: 'registerType', text: '注册方式', format: (value) => {
             return this.props.actuator.registerType[value];
-        }},
+        }
+        },
         {name: 'ips', text: 'OnLine 机器'},
-        {name: 'op', text: '操作', format: (value, column, row) => {
+        {
+            name: 'op', text: '操作', format: (value, column, row) => {
             return <span>
-                <a className='text-blue mr-5' href='javascript:void(0)' onClick={this.openEditDialog.bind(this, row.id)}>编辑</a>
-                <a className='text-danger mr-5' href='javascript:void(0)' onClick={this.openDeleteConfirm.bind(this, row.id)}>删除</a>
+                <Button theme="primary" className='mr-5'
+                   onClick={this.openEditDialog.bind(this, row.id)}>编辑</Button>
+                <Button theme="danger" className='mr-5'
+                   onClick={this.openDeleteConfirm.bind(this, row.id)}>删除</Button>
             </span>;
-        }}
+        }
+        }
     ];
 
-    openDeleteConfirm (id) {
+    openDeleteConfirm(id) {
         this.deleteConfirm.show('确认删除该执行器？');
         this.deleteConfirm.setData(id);
     }
@@ -53,7 +59,7 @@ class Actuator extends React.Component {
         this.addDialog.open();
     }
 
-    openEditDialog (id) {
+    openEditDialog(id) {
         this.props.actuator.getActuatorInfo(id);
         this.addDialog.open();
     }
@@ -66,10 +72,10 @@ class Actuator extends React.Component {
         return true;
     }
 
-    async submit () {
+    async submit() {
         if (this.form.isValid()) {
             const params = this.form.getParams();
-            if  (params.id ) {
+            if (params.id) {
                 this.props.actuator.editActuator(params, (ret) => {
                     if (ret && ret.success) {
                         this.tip.show('编辑成功');
@@ -79,7 +85,7 @@ class Actuator extends React.Component {
                     }
                     this.addDialog.close();
                 });
-            }  else {
+            } else {
                 this.props.actuator.saveActuator(params, (ret) => {
                     if (ret && ret.success) {
                         this.tip.show('保存成功');
@@ -93,7 +99,7 @@ class Actuator extends React.Component {
         }
     }
 
-    render () {
+    render() {
         const formData = this.props.actuator.getInitFormData();
         return (
             <div>
@@ -105,16 +111,18 @@ class Actuator extends React.Component {
                 <Card className='mt-30' title='执行器列表' tools={[
                     <Button style={{color: '#fff'}} key='plus' theme='primary' icon='plus' onClick={this.openDialog}>添加执行器</Button>
                 ]}>
-                    <SimpleListPage pagination ref={(f) => this.table = f} columns={this.columns} action={API.ACTUATOR.LIST}/>
+                    <SimpleListPage pagination ref={(f) => this.table = f} columns={this.columns}
+                                    action={API.ACTUATOR.LIST}/>
                 </Card>
 
                 <Dialog ref={(f) => this.addDialog = f} title={formData.id ? '编辑执行器' : '新增执行器'}
-                    onConfirm={this.saveForm} 
-                    content={<Form ref={(f) => this.form = f} data={formData}/>} />
+                        onConfirm={this.saveForm}
+                        content={<Form ref={(f) => this.form = f} data={formData}/>}/>
                 <MessageBox ref={(f) => this.deleteConfirm = f} title='提示' type='confirm' confirm={this.doDelete}/>
-                <MessageBox ref={(f) => this.tip = f} title='提示' />
+                <MessageBox ref={(f) => this.tip = f} title='提示'/>
             </div>
         );
     }
 }
+
 export default Actuator;
