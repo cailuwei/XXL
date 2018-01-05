@@ -88,6 +88,7 @@ class Comp extends React.Component {
             const data = JSON.parse(ret.response);
             if (data && data.success) {
                 this.tip.show('上传成功');
+                this.editor.setValue(data.data);
             } else {
                 this.tip.show('上传失败');
             }
