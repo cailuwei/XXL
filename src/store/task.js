@@ -6,102 +6,93 @@ useStrict(true); // 使用严格模式
 
 export default class Task {
 
-    // @observable 监听数据变化
-    @observable taskType = '0';
-
-    @observable isFetching = false;
-
-    @observable editTaskType = '0';
-
-    @observable taskInfo = {};
-
-    @observable orignData = {
+    orignData = {
+        'id': '',
         'taskName': '',
-        'taskType': '',
-        'taskDescription': '',
-        'manager': '',
-        'startTime': '',
+        'taskType': '0',
+        'taskDesc': '',
+        'author': '',
+        'timeRange': '',
         'timeType': '',
-        'cron': ''
+        'taskCron': '',
+        'alarmEmails': ''
     };
 
-    getSelectData () {
+    @observable taskType = '0';
+    @observable isFetching = false;
+    @observable taskInfo = {};
+
+    getSelectData() {
         return [
-            {id: '0', text: 'cron'},
+            {id: '0', text: 'cron'},  //定時任務
             {id: '1', text: '单次任务'}
         ];
     }
 
-    getTaskType () {
+    getTaskType() {
         return this.taskType;
     }
 
-    async fecthTaskDetail (taskId) {
+    async fecthTaskDetail(taskId) {
         this.setFetchBegin();
-        const resp = await fetch(API.TASK['DETAIL'], {taskId});
+        const resp = await fetch(API.TASK.GET_TASK_INFO, {taskId}, 'post');
         if (resp && resp.success) {
-            this.setTaskInfo({
-                'taskName': 'asdasd',
-                'taskType': '111',
-                'taskDescription': '111',
-                'manager': '',
-                'startTime': '',
-                'timeType': '',
-                'cron': ''
-            });
+            this.setTaskInfo({});
             this.setFetchDone();
         }
 
     }
 
-    async putTask (params) {
-        const ret = fetch(API.TASK['ADD'], params, 'post');
+    async putTask(params) {
+        params.endTime = params.timeRange[1];
+        params.startTime = params.timeRange[0];
+
+        const ret = fetch(API.TASK.ADD_TASK, params, 'post', {}, API.HEADER);
         return ret;
     }
 
-    async updateTask (params) {
-        const ret = fetch(API.TASK['EDIT'], params, 'post');
+    async updateTask(params) {
+        params.endTime = params.timeRange[1];
+        params.startTime = params.timeRange[0];
+
+        const ret = fetch(API.TASK.EDIT_TASK, params, 'post', {}, API.HEADER);
         return ret;
     }
 
-    async deleteTask (id) {
-        const ret = fetch(API.TASK['DELETE'], {id});
+    async deleteTask(id) {
+        const ret = fetch(API.TASK.DELETE_TASK, {id}, 'post');
         return ret;
     }
 
-    async toggelTaskStatus (id) {
-        const ret = fetch(API.TASK['TOGGLE_STATUS'], {id});
+    async toggelTaskStatus(id) {
+        const ret = fetch(API.TASK.TOGGLE_STATUS, {id}, 'post');
         return ret;
     }
 
     // @action 动作，用与改变状态，且严格模式下状态只能有动作改变
     @action
-    setFetchBegin () {
+    setFetchBegin() {
         this.isFetching = true;
     }
 
     @action
-    setFetchDone () {
+    setFetchDone() {
         this.isFetching = false;
     }
 
     @action
-    handlerTaskTypeChange (value) {
+    handlerTaskTypeChange(value) {
         this.taskType = value;
     }
 
     @action
-    handlerEditTaskTypeChange (value) {
-        this.editTaskType = value;
-    }
-
-    @action
-    setTaskInfo (data) {
+    setTaskInfo(data) {
+        data.timeRage = data.startTime + '~' + data.endTime;
         this.taskInfo = data;
     }
 
     @action
-    initAddFormData () {
+    initAddFormData() {
         this.taskInfo = JSON.parse(JSON.stringify(this.orignData));
     }
 }

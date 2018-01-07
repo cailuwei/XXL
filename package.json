@@ -27,6 +27,7 @@
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.19.1",
     "omit.js": "^1.0.0",
+    "raphael": "^2.2.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-draggable": "^3.0.4",
@@ -42,5 +43,13 @@
     "build": "node build/scripts/build",
     "dll-dev": "NODE_ENV=development webpack --config  build/config/webpack.dll.js --progress",
     "dll": "webpack --config  build/config/webpack.dll.js --progress"
+  },
+  "proxy": {
+    "/cmcc-job-admin/": {
+      "target": "http://localhost:8080/cmcc-job-admin/",
+      "pathRewrite": {
+        "^/cmcc-job-admin": ""
+      }
+    }
   }
 }

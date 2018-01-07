@@ -325,10 +325,10 @@ class FormControl extends BaseComponent {
         const params = {};
 
         if (url[1]) {
-            const parts = url[1].split('=');
+            const parts = url[1].split('&');
             if (parts.length) {
                 parts.forEach((part) => {
-                    const pair = part.split('&');
+                    const pair = part.split('=');
                     params[pair[0]] = pair[1];
                 });
             }
@@ -526,12 +526,15 @@ class FormControl extends BaseComponent {
             style,
             required,
             tipTheme,
-            labelWidth
+            labelWidth,
+            group
         } = this.props;
         //  console.log(layout);
 
         className = classNames('cm-form-group', className, {
             [`cm-form-group-${layout}`]: layout,
+            [`cm-form-group-${type}`]: type,
+            'cm-form-group-stick': group,
             'cm-form-group-invalid': this.state.errorTip
         });
 

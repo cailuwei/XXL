@@ -11,55 +11,57 @@ export default class Actuator {
         AppName: '',
         name: '',
         ordering: '',
-        registerType: '0',
+        addressType: '0',
+        addressList: '',
         ips: ''
-    }
+    };
 
-    @observable
-    initFormData = {};
-
-    registerType = {
+    addressType = {
         '0': '自动注册',
         '1': '手动注册'
     };
 
-    async deleteActuator (id, callback) {
-        const ret = await fetch(API.ACTUATOR.DELETE, {id});
+    @observable
+    initFormData = {};
+
+    async deleteActuator(id, callback) {
+        const ret = await fetch(API.ACTUATOR.DELETE_ACTUATOR, {id}, 'post');
         if (callback) {
             callback(ret);
         }
     }
 
-    async saveActuator (params, callback) {
-        const ret = await fetch(API.ACTUATOR.SAVE, params, 'post');
+    async saveActuator(params, callback) {
+        const ret = await fetch(API.ACTUATOR.SAVE_ACTUATOR, params, 'post', {}, API.HEADER);
         if (callback) {
             callback(ret);
         }
     }
 
-    async editActuator (params, callback) {
-        const ret = await fetch(API.ACTUATOR.EDIT, params, 'post');
+    async editActuator(params, callback) {
+        const ret = await fetch(API.ACTUATOR.EDIT_ACTUATOR, params, 'post', {}, API.HEADER);
         if (callback) {
             callback(ret);
         }
     }
 
-    async getActuatorInfo (id) {
-        const ret = await fetch(API.ACTUATOR.GETACTUATOR, {id});
+    async getActuatorInfo(id) {
+        const ret = await fetch(API.ACTUATOR.GET_ACTUATOR_INFO, {id}, 'post');
         this.setActuatorInfo(ret);
     }
 
     @action
-    changeInitFormData () {
+    changeInitFormData() {
         this.initFormData = Map(this.orign).toJS();
     }
 
     @action
-    setActuatorInfo (info) {
+    setActuatorInfo(info) {
+        info.addressList = info.registryList;
         this.initFormData = info;
     }
 
-    getInitFormData () {
+    getInitFormData() {
         return toJS(this.initFormData);
     }
 }

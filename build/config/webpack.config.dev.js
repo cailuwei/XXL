@@ -62,7 +62,9 @@ const config = {
             // require.resolve('react-error-overlay'),
             // Finally, this is your app's code:
             paths.appIndexJs],
-        code: [`${paths.appSrc}/Code.js`],
+        code: [`${paths.appSrc}/pages/Code.js`],
+        login: [`${paths.appSrc}/pages/Login.js`],
+        log: [`${paths.appSrc}/pages/Log.js`],
         lib: [require.resolve('./polyfills'), 'react', 'react-dom',
             'react-router', 'moment', 'react-transition-group',
             'immutability-helper',
@@ -269,6 +271,18 @@ const config = {
             chunks: ['manifest', 'lib', 'code'],
             template: paths.appHtml,
             filename: 'code.html'
+        }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            chunks: ['manifest', 'lib', 'log'],
+            template: paths.appHtml,
+            filename: 'log.html'
+        }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            chunks: ['manifest', 'lib', 'login'],
+            template: paths.appHtml,
+            filename: 'login.html'
         }),
         // Add module names to factory functions so they appear in browser profiler.
         new webpack.NamedModulesPlugin(),

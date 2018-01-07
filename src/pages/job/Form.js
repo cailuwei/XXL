@@ -38,14 +38,17 @@ class Comp extends React.Component {
                           layout='stack-inline'
                           data={this.props.data}>
                         <FormControl name='id' type='hidden'/>
-                        <FormControl name='jobGroup' label='执行器:' textField='name' type='select' placeholder='执行器'
-                                     url={API.ACTUATOR.SELECT_LIST} required/>
-                        <FormControl name='jobDesc' label='job描述:' type='textarea' required height={100}/>
-                        <FormControl name='author' type='text' label='负责人:' required/>
-                        <FormControl name='ExecutorRouteStrategyEnum' label='路由策略:' type='select' placeholder='路由策略'
-                                     url={API.JOB.STRATEGY_LIST} required/>
-                        <FormControl name='runMode' label='运行模式:' type='select' placeholder='运行模式'
-                                     url={API.JOB.RUN_MODE_LIST} required/>
+                        <FormControl ref={(f) => this.jobGroup = f} name='jobGroup' label='执行器:' type='select'
+                                     placeholder='执行器'
+                                     data={this.props.jobGroupList} required/>
+                        <FormControl name='jobName' label='job名称:' type='text' required height={100}
+                                     rules={{maxLength: 50}}/>
+                        <FormControl name='jobDesc' label='job描述:' type='textarea' required height={100}
+                                     rules={{maxLength: 255}}/>
+                        <FormControl name='author' label='负责人:' type='text' required rules={{maxLength: 64}}/>
+                        <FormControl ref={(f) => this.strategy = f} name='ExecutorRouteStrategyEnum' label='路由策略:'
+                                     type='select' placeholder='路由策略'
+                                     data={this.props.strategyList} required/>
                     </Form>
                 </div>
             </SVGSpin>

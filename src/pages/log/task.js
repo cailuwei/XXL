@@ -16,48 +16,83 @@ import API from '../../configs/api';
 class BaseForm extends React.Component {
     displayName = 'BaseForm';
 
+    state = {
+        disabled: false
+    };
+
+    btns = {};
+    timeParams = [];
+
     handlerLog(id) {
         const {push} = this.props.routing;
         push(`/log/job/${id}`);
     }
 
-    handlerSetup(id) {
-        this.deleteConfirm.show('确认删除该实例？');
-        this.deleteConfirm.setData(id);
+    handlerSetup(row) {
+        this.reConfirm.show('确认重新执行该实例？');
+        this.reConfirm.setData(row);
     }
 
-    deleteJob = async (flag) => {
+    reJob = async (flag) => {
         if (flag) {
-            const id = this.deleteConfirm.getData();
-            const resp = await fetch(API.LOG['RE_IMPL'], {id: id});
+            const row = this.reConfirm.getData();
+            const taskInstId = row.id;
+            this.btns['btn-' + row.taskInstStatus + '-' + row.timeParam + '-' + row.id].disable();
+
+            const resp = await fetch(API.LOG['RE_IMPL'], {taskInstId}, 'post', () => {
+                this.btns['btn-' + row.taskInstStatus + '-' + row.timeParam + '-' + row.id].enable();
+            });
             if (resp && resp.success) {
-                this.tip.show('删除成功');
+                this.tip.show('执行成功！');
                 this.table.refresh();
             } else {
-                this.tip.show('删除失败');
+                this.tip.show(resp.message || '删除失败');
             }
+
+            this.btns['btn-' + row.taskInstStatus + '-' + row.timeParam + '-' + row.id].enable();
         }
         return true;
     }
 
+    afterRequest() {
+        for (const key in this.btns) {
+            const obj = this.btns[key];
+            const arr = key.split('-');
+            for (var i = 0; i < this.timeParams.length; i++) {
+                if (arr[2] === this.timeParams[i]) {
+                    obj.disable();
+                }
+            }
+        }
+    }
+
     render() {
+        const taskId = this.props.match.params.taskId;
         const single = [
-            {name: 'id', text: '实例ID', style: {width: '70px'}},
-            {name: 'handleTime', text: '执行时间'},
+            {name: 'id', text: '实例ID', style: {width: '120px'}},
+            {name: 'startTime', text: '执行时间'},
             {name: 'endTime', text: '结束时间'},
             {name: 'doneJobs', text: '已完成job'},
             {name: 'failJobs', text: '失败job'},
             {name: 'timeParam', text: '时间参数'},
             {
                 name: 'taskInstStatus', text: '执行状态', format: (value) => {
-                return ['禁用', '激活'][value];
+                return ['待执行', '正在执行', '执行失败', '执行成功并结'][value];
             }
             },
             {
                 name: 'op', text: '操作', style: {width: "250px"}, format: (value, column, row) => {
+                let btn = null;
+                if (row.taskInstStatus === 1) {
+                    this.timeParams.push(row.timeParam);
+                    btn = <Button theme='primary' className='mr-5' disabled>重新执行</Button>;
+                } else {
+                    btn = <Button theme='primary' className='mr-5'
+                                  ref={(f) => this.btns['btn-' + row.taskInstStatus + '-' + row.timeParam + '-' + row.id] = f}
+                                  onClick={this.handlerSetup.bind(this, row)}>重新执行</Button>
+                }
                 return <span>
-                    <Button theme='primary' className='mr-5' disabled
-                            onClick={this.handlerSetup.bind(this, row.id)}>重新执行</Button>
+                    {btn}
                     <Button theme='primary' className='mr-5'
                             onClick={this.handlerLog.bind(this, row.id)}>job日志</Button>
                 </span>;
@@ -73,12 +108,14 @@ class BaseForm extends React.Component {
 
                 <Card className='mt-30'>
                     <SimpleListPage ref={(f) => this.table = f}
+                                    searchParams={{taskId}}
                                     pagination
+                                    afterRequest={this.afterRequest.bind(this)}
                                     columns={single}
                                     action={API.LOG['TASK_LIST']}/>
                 </Card>
 
-                <MessageBox ref={(f) => this.deleteConfirm = f} title='提示' type='confirm' confirm={this.deleteJob}/>
+                <MessageBox ref={(f) => this.reConfirm = f} title='提示' type='confirm' confirm={this.reJob}/>
                 <MessageBox ref={(f) => this.tip = f} title='提示'/>
             </div>
         );

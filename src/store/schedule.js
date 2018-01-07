@@ -2,7 +2,7 @@ import {useStrict, observable, action, toJS} from 'mobx';
 import fetch from 'r-cmui/components/utils/fetch';
 import UUID from 'r-cmui/components/utils/UUID';
 import API from '../configs/api';
-import {Map} from 'immutable';
+// import {Map} from 'immutable';
 
 useStrict(true); // 使用严格模式
 
@@ -11,105 +11,116 @@ export default class Schedule {
     @observable nodeData;
     @observable linkFormNodes;
     @observable linkFormData = {
-        prefix: '',
-        suffix: ''
+        prefixId: '',
+        nextId: ''
     }
     @observable saveFetching = false;
 
-    async fetchScheduleData (taskId) {
-        const ret = await fetch(API.SCHEDULE.GETSCHEDULE, {taskId});
-        this.setScheduleData(ret);
+    walkList(data) {
+        return data.map((item) => {
+            item['items'] = item.nextId.split(',');
+            return item;
+        });
     }
 
-    async putNode (node, callback) {
-        const ret = await fetch(API.SCHEDULE.ADDNODE, node, 'post');
+    async fetchScheduleData(taskId) {
+        const ret = await fetch(API.SCHEDULE.GET_SCHEDULE, {taskId}, 'post');
+        // if (ret && ret.success) {
+        this.setScheduleData(this.walkList(ret));
+        // }
+    }
+
+    async putNode(node, callback) {
+        const ret = await fetch(API.SCHEDULE.ADD_NODE, node, 'post', {}, API.HEADER);
         if (callback) {
             callback(ret);
         }
     }
 
-    async updateNode (node, callback) {
-        const ret = await fetch(API.SCHEDULE.EDITNODE, node, 'post');
+    async updateNode(node, callback) {
+        const ret = await fetch(API.SCHEDULE.EDIT_NODE, node, 'post', {}, API.HEADER);
         if (callback) {
             callback(ret);
         }
     }
 
-    async deleteNode (id) {
-        const ret = await fetch(API.SCHEDULE.DELETENODE, id, 'post');
+    async deleteNode(id) {
+        const ret = await fetch(API.SCHEDULE.DELETE_NODE, id, 'post');
         return ret;
     }
 
-    async fetchScheduleInfo (id) {
-        const info = await fetch(API.SCHEDULE.GETNODEINFO, {id});
-        this.setNodeInfo(info);
+    async fetchScheduleInfo(id) {
+        const info = await fetch(API.SCHEDULE.GET_NODE_INFO, {id}, 'post');
+        if (info && info.success) {
+            this.setNodeInfo(info);
+        }
     }
 
-    async saveAllLinks (params) {
+    async saveAllLinks(params) {
         this.saveBegin();
-        const ret = await fetch(API.SCHEDULE.SAVE, params);
+        const ret = await fetch(API.SCHEDULE.SAVE_NODE, params, 'post', {}, API.HEADER);
         this.saveDone();
         return ret;
     }
 
     @action
-    saveBegin () {
+    saveBegin() {
         this.saveFetching = true;
     }
 
     @action
-    saveDone () {
+    saveDone() {
         this.saveFetching = false;
     }
 
     @action
-    updateLinkFormData (nodes, prefix, suffix) {
+    updateLinkFormData(nodes, prefix, suffix) {
         this.linkFormNodes = nodes;
-        this.linkFormData.prefix = prefix;
-        this.linkFormData.suffix = suffix;
+        this.linkFormData.prefixId = prefix;
+        this.linkFormData.nextId = suffix;
     }
 
     @action
-    updateLinkFormPrefix (prefix) {
+    updateLinkFormPrefix(prefixId) {
         this.linkFormData = {
-            prefix,
-            suffix: this.linkFormData.suffix
+            prefixId,
+            nextId: this.linkFormData.nextId
         };
     }
 
     @action
-    updateLinkFormSuffix (suffix) {
+    updateLinkFormSuffix(nextId) {
         this.linkFormData = {
-            suffix,
-            prefix: this.linkFormData.prefix
+            nextId,
+            prefixId: this.linkFormData.prefixId
         };
     }
 
     @action
-    setNodeInfo (info) {
+    setNodeInfo(info) {
         this.nodeData = info;
     }
 
     @action
-    addNode (node) {
+    addNode(node) {
         node.id = UUID.v4();
         this.data[0].push(node);
     }
 
     @action
-    setScheduleData (data) {
+    setScheduleData(data) {
         this.data = data;
     }
 
-    getScheduleData () {
+    getScheduleData() {
         return toJS(this.data);
     }
 
-    getLinkFormNodes () {
+    getLinkFormNodes() {
         return toJS(this.linkFormNodes);
     }
 
-    getLinkFormData () {
+    getLinkFormData() {
         return toJS(this.linkFormData);
     }
 }

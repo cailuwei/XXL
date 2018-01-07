@@ -16,22 +16,22 @@ class Actuator extends React.Component {
     displayName = 'Actuator';
 
     columns = [
-        {name: 'ordering', text: '排序'},
-        {name: 'AppName', text: 'AppName'},
-        {name: 'name', text: '名称'},
+        {name: 'order', text: '排序', style: {width: '120px'}},
+        {name: 'appName', text: 'AppName'},
+        {name: 'title', text: '名称'},
         {
-            name: 'registerType', text: '注册方式', format: (value) => {
-            return this.props.actuator.registerType[value];
+            name: 'addressType', text: '注册方式', format: (value) => {
+            return this.props.actuator.addressType[value];
         }
         },
-        {name: 'ips', text: 'OnLine 机器'},
+        {name: 'registryList', text: 'OnLine 机器'},
         {
             name: 'op', text: '操作', format: (value, column, row) => {
             return <span>
-                <Button theme="primary" className='mr-5'
-                   onClick={this.openEditDialog.bind(this, row.id)}>编辑</Button>
-                <Button theme="danger" className='mr-5'
-                   onClick={this.openDeleteConfirm.bind(this, row.id)}>删除</Button>
+                <Button theme='primary' className='mr-5'
+                        onClick={this.openEditDialog.bind(this, row)}>编辑</Button>
+                <Button theme='danger' className='mr-5'
+                        onClick={this.openDeleteConfirm.bind(this, row.id)}>删除</Button>
             </span>;
         }
         }
@@ -59,8 +59,9 @@ class Actuator extends React.Component {
         this.addDialog.open();
     }
 
-    openEditDialog(id) {
-        this.props.actuator.getActuatorInfo(id);
+    openEditDialog(row) {
+        this.props.actuator.setActuatorInfo(row);
+        // this.props.actuator.getActuatorInfo(id);
         this.addDialog.open();
     }
 
@@ -80,20 +81,20 @@ class Actuator extends React.Component {
                     if (ret && ret.success) {
                         this.tip.show('编辑成功');
                         this.table.refresh();
+                        this.addDialog.close();
                     } else {
-                        this.tip.show('编辑失败');
+                        this.tip.show(ret.message || '编辑失败');
                     }
-                    this.addDialog.close();
                 });
             } else {
                 this.props.actuator.saveActuator(params, (ret) => {
                     if (ret && ret.success) {
                         this.tip.show('保存成功');
                         this.table.refresh();
+                        this.addDialog.close();
                     } else {
-                        this.tip.show('保存失败');
+                        this.tip.show(ret.message || '保存失败');
                     }
-                    this.addDialog.close();
                 });
             }
         }
@@ -105,12 +106,11 @@ class Actuator extends React.Component {
             <div>
                 <Breadcrumb>
                     <Breadcrumb.Item>执行器管理</Breadcrumb.Item>
-                    <Breadcrumb.Item>执行器列表</Breadcrumb.Item>
                 </Breadcrumb>
 
-                <Card className='mt-30' title='执行器列表' tools={[
-                    <Button style={{color: '#fff'}} key='plus' theme='primary' icon='plus' onClick={this.openDialog}>添加执行器</Button>
-                ]}>
+                <Card className='mt-30'
+                      tools={[<Button style={{color: '#fff'}} key='btn-add' theme='primary' icon='plus'
+                                      onClick={this.openDialog}>添加执行器</Button>]}>
                     <SimpleListPage pagination ref={(f) => this.table = f} columns={this.columns}
                                     action={API.ACTUATOR.LIST}/>
                 </Card>

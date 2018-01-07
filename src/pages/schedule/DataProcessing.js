@@ -1,7 +1,7 @@
 import UUID from 'r-cmui/components/utils/UUID';
 
 class DataProcessing {
-    constructor (data) {
+    constructor(data) {
         this.orign = data;
         this.data = JSON.parse(JSON.stringify(data));
         if (this.data) {
@@ -9,7 +9,7 @@ class DataProcessing {
         }
     }
 
-    excecute () {
+    excecute() {
         this.nodeMap = {};
         this.initNodeMap();
         this.linkData();
@@ -27,7 +27,7 @@ class DataProcessing {
         this.levels = this.levelIndex.length;
     }
 
-    addNode (node) {
+    addNode(node) {
         if (node.id === undefined) {
             node.id = UUID.v4();
         }
@@ -36,21 +36,24 @@ class DataProcessing {
         this.excecute();
     }
 
-    removeNode (node) {
+    removeNode(node) {
         this.orign = this.orign.filter((item) => {
             return item.id !== node.id;
         });
-        
+
         this.data = JSON.parse(JSON.stringify(this.orign));
         this.excecute();
     }
 
-    updateNodeLinks (node, parentIds, childIds) {
+    updateNodeLinks(node, parentIds, childIds) {
+        // 后置
         this.orign.forEach((item) => {
             if (item.id === node.id) {
                 item.items = childIds ? childIds.split(',') : undefined;
             }
         });
+
+        // 前置
         const pIds = parentIds.split(',');
         if (node.parents) {
             node.parents.forEach((parent) => {
@@ -66,13 +69,23 @@ class DataProcessing {
                 }
             });
         }
+
         this.orign.forEach((item) => {
             pIds.forEach((pId) => {
-                if (item.id === pId) {
+                if (pId) {
+                    if (item.id === pId) {
+                        if (item.items) {
+                            item.items.push(node.id);
+                        } else {
+                            item.items = [node.id];
+                        }
+                    }
+                } else {
                     if (item.items) {
-                        item.items.push(node.id);
-                    } else {
-                        item.items = [node.id];
+                        const index = item.items.indexOf(node.id);
+                        if (index > -1) {
+                            item.items.splice(index, 1);
+                        }
                     }
                 }
             });
@@ -82,15 +95,15 @@ class DataProcessing {
         this.excecute();
     }
 
-    getMax () {
+    getMax() {
         return this.max;
     }
 
-    getLevels () {
+    getLevels() {
         return this.levels;
     }
 
-    checkValidChildren (node, preIds, ids) {
+    checkValidChildren(node, preIds, ids) {
         // 是否存在循环
         let hasConflic = false;
         const parents = preIds.map((pId) => {
@@ -117,7 +130,7 @@ class DataProcessing {
         return {code: 'OK', ids: ids.join(',')};
     }
 
-    checkValidParents (node, preIds, sufIds) {
+    checkValidParents(node, preIds, sufIds) {
         // 是否存在循环
         let hasConflic = false;
         const children = sufIds.map((sufId) => {
@@ -144,7 +157,7 @@ class DataProcessing {
         return {code: 'OK', ids: preIds.join(',')};
     }
 
-    parentsContainsCircle (parents, id, params) {
+    parentsContainsCircle(parents, id, params) {
         parents && parents.forEach((p) => {
             if (p && p.id === id) {
                 params.found = true;
@@ -155,7 +168,7 @@ class DataProcessing {
         });
     }
 
-    childrenContainsCircle (children, id, params) {
+    childrenContainsCircle(children, id, params) {
         children && children.forEach((child) => {
             if (child && child.id === id) {
                 params.found = true;
@@ -166,12 +179,12 @@ class DataProcessing {
         });
     }
 
-    checkInValidLink () {
+    checkInValidLink() {
         const leafs = this.getLeafs();
         this.checkParentsValidLink(leafs);
     }
 
-    checkParentsValidLink (leafs) {
+    checkParentsValidLink(leafs) {
         leafs.forEach((leaf) => {
             const parents = leaf.parents;
             this.checkNodeValidLink(leaf, parents);
@@ -181,7 +194,7 @@ class DataProcessing {
         });
     }
 
-    checkNodeValidLink (node, parents) {
+    checkNodeValidLink(node, parents) {
         const nodeParents = node.parents;
         if (!parents) {
             return false;
@@ -207,7 +220,7 @@ class DataProcessing {
     /**
      * 获取叶子节点
      */
-    getLeafs () {
+    getLeafs() {
         return this.data.filter((item) => {
             return item.parents && !item.children;
         });
@@ -216,9 +229,9 @@ class DataProcessing {
     /**
      * 判断当前节点和父节点是否为同级节点
      * 或者是跨级节点
-     * @param {*} roots 
+     * @param {*} roots
      */
-    checkSameLevel (roots) {
+    checkSameLevel(roots) {
         roots.forEach((root) => {
             root.children && root.children.forEach((child) => {
                 if (root.level === child.level) {
@@ -238,7 +251,7 @@ class DataProcessing {
     /**
      * 初始化节点当前层级的总数
      */
-    initTotal () {
+    initTotal() {
         this.data.forEach((iter) => {
             iter.total = this.levelIndex[iter.level] + 1;
         });
@@ -246,15 +259,15 @@ class DataProcessing {
 
     /**
      * 所有节点初始化level和index
-     * @param {*} roots 
+     * @param {*} roots
      */
-    initLevelAndOrdering (roots) {
+    initLevelAndOrdering(roots) {
         roots.forEach((iter) => {
             iter.level = 0;
             if (this.levelIndex[iter.level] === undefined) {
                 this.levelIndex[iter.level] = 0;
             } else {
-                this.levelIndex[iter.level] ++;
+                this.levelIndex[iter.level]++;
             }
             iter.index = this.levelIndex[iter.level];
         });
@@ -267,7 +280,7 @@ class DataProcessing {
         this.initLevels(children, 0);
     }
 
-    initLevels (children, parentLevel) {
+    initLevels(children, parentLevel) {
         let nodes = [];
         children && children.forEach((child) => {
             if (child.level === undefined) {
@@ -275,7 +288,7 @@ class DataProcessing {
                 if (this.levelIndex[child.level] === undefined) {
                     this.levelIndex[child.level] = 0;
                 } else {
-                    this.levelIndex[child.level] ++;
+                    this.levelIndex[child.level]++;
                 }
                 child.index = this.levelIndex[child.level];
             }
@@ -291,7 +304,7 @@ class DataProcessing {
     /**
      * 获取第一级节点
      */
-    getRoots () {
+    getRoots() {
         const roots = [];
         this.data.forEach((iter) => {
             if (!iter.parents) {
@@ -302,7 +315,7 @@ class DataProcessing {
         return roots;
     }
 
-    initNodeMap () {
+    initNodeMap() {
         this.data.forEach((item) => {
             delete item['parents'];
             delete item['children'];
@@ -316,7 +329,7 @@ class DataProcessing {
      * 设置节点的前后关系
      * 设置parents和children
      */
-    linkData () {
+    linkData() {
         this.data.forEach((iter) => {
             if (iter.items) {
                 iter.children = [];
@@ -332,7 +345,34 @@ class DataProcessing {
                     iter.children.push(node);
                 }
             });
+
+            /**
+             * cailuwei add
+             * 2018-01-04
+             */
+            let nextId = [];
+            if (iter.children && iter.children.length > 0) {
+                iter.children.forEach((item) => {
+                    nextId.push(item.id);
+                });
+                iter.nextId = nextId.join(',');
+            } else {
+                iter.nextId = 'N';
+            }
+
+            let prefixId = [];
+            if (iter.parents && iter.parents.length > 0) {
+                iter.parents.forEach((item) => {
+                    prefixId.push(item.id);
+                });
+                iter.prefixId = prefixId.join(',');
+            } else {
+                iter.prefixId = 'N';
+            }
+
+
         });
     }
 }
+
 export default DataProcessing;

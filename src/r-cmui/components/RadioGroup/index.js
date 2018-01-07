@@ -40,8 +40,6 @@ class RadioGroup extends BaseComponent {
             value: props.value
         });
 
-        this._lastChecked = null;
-
         this.items = [];
         this.itemMap = {};
     }
@@ -89,10 +87,6 @@ class RadioGroup extends BaseComponent {
         if (ref) {
             this.items.push(ref);
             this.itemMap[ref.getValue()] = ref;
-
-            if (ref.getValue() === this.state.value) {
-                this._lastChecked = ref;
-            }
         }
     }
 
@@ -408,6 +402,6 @@ RadioGroup.propTypes = {
     onChange: PropTypes.func
 };
 
-FormControl.register(RadioGroup, 'radio');
+FormControl.register(RadioGroup, 'radio', 'array');
 
 export default RadioGroup;

@@ -8,6 +8,6 @@ if (!window.requestAnimationFrame) {
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './pages/code/App';
+import App from './login/index';
 
 ReactDOM.render(<App />, document.getElementById('root'));

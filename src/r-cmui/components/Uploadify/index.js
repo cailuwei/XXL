@@ -124,9 +124,9 @@ class Uploadify extends BaseComponent {
      */
     progress = (up, file) => {
         if (!this.props.silent) {
-            const fileWrap = Dom.dom(Dom.query(`#${file.id}`));
+            const fileWrap = Dom.dom(Dom.query(`#${  file.id}`));
             const progress = Dom.dom(Dom.query('.cm-uploadify-progress', fileWrap[0]));
-            progress.css('width', `${file.percent}%`);
+            progress.css('width', `${file.percent  }%`);
         }
 
         if (this.props.onProgress) {
@@ -144,7 +144,7 @@ class Uploadify extends BaseComponent {
      */
     fileUploaded = (up, file, ret) => {
         if (!this.props.silent) {
-            const fileWrap = Dom.dom(Dom.query(`#${file.id}`));
+            const fileWrap = Dom.dom(Dom.query(`#${  file.id}`));
             if (file.status === 4) {
                 fileWrap.addClass('cm-uploadify-failed');
             }
@@ -192,7 +192,7 @@ class Uploadify extends BaseComponent {
             this.refs.msg.show(error.message);
         }
         if (error.file && !this.props.silent) {
-            const fileDom = Dom.query(`#${error.file.id}`);
+            const fileDom = Dom.query(`#${  error.file.id}`);
             if (fileDom) {
                 const fileWrap = Dom.dom(fileDom);
                 if (error.file.status === 4) {
@@ -256,7 +256,7 @@ class Uploadify extends BaseComponent {
             let picture = null;
             if (this.props.thumbnail) {
                 picture = <span className='cm-uploadify-thumbnail'>
-                    <img ref={`prev_${file.id}`} onClick={this.openLightBox.bind(this, file)} alt='' />
+                    <img ref={`prev_${  file.id}`} onClick={this.openLightBox.bind(this, file)} alt='' />
                 </span>;
                 this.preloadImage(file);
             } else {
@@ -274,7 +274,7 @@ class Uploadify extends BaseComponent {
             this.preloadImage(file);
             return <div className='cm-uploadify-item' key={index} id={file.id}>
                 <span className='cm-uploadify-thumbnail'>
-                    <img ref={`prev_${file.id}`} alt='' />
+                    <img ref={`prev_${  file.id}`} alt='' />
                 </span>
                 <i className='fa fa-eye cm-uploadify-view' onClick={this.openLightBox.bind(this, file)} />
                 <i className='fa fa-trash-o cm-uploadify-close' onClick={this.onRemoveFile.bind(this, file)} />
@@ -290,11 +290,11 @@ class Uploadify extends BaseComponent {
      * @param file
      */
     openLightBox (file) {
-        let img = this.refs[`prev_${file.id}`];
+        let img = this.refs[`prev_${  file.id}`];
         if (img) {
             img = ReactDOM.findDOMNode(img);
             const src = img.src;
-            const temp = new Image();
+            let temp = new Image();
             temp.src = src;
 
             this.refs.lightBox.src = src;
@@ -334,7 +334,7 @@ class Uploadify extends BaseComponent {
             const imgsrc = preload.type === 'image/jpeg'
                 ? preload.getAsDataURL('image/jpeg', 80)
                 : preload.getAsDataURL(); // 得到图片src,实质为一个base64编码的数据
-            const image = ReactDOM.findDOMNode(this.refs[`prev_${file.id}`]);
+            const image = ReactDOM.findDOMNode(this.refs[`prev_${  file.id}`]);
             if (image) {
                 image.src = imgsrc;
             }

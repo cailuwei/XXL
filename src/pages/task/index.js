@@ -64,42 +64,46 @@ class BaseForm extends React.Component {
     handlerCreate = () => {
         const task = this.props.task;
         task.initAddFormData();
-        this.addDialog.open();
+        this.editDialog.open();
     };
 
-    handlerAdd = async (flag) => {
-        if (flag) {
-            if (this.addForm.isValid()) {
-                const {task} = this.props;
-                const resp = await task.putTask(this.addForm.getParams());
-                if (resp.success) {
-                    this.tip.show('保存成功！');
-                    this.table.refresh();
-                    this.addDialog.close();
-                }
-            }
-        }
-        return true;
-    }
-
-    handlerEdit = async (id) => {
+    handlerEdit = async (row) => {
         const task = this.props.task;
-        /* 异步请求编辑信息*/
-        task.getTaskDetailInfo(id);
+        // /* 异步请求编辑信息*/
+        // task.fecthTaskDetail(id);
+        task.setTaskInfo(row);
         /* 打开编辑框*/
         this.editDialog.open();
     }
 
-    handlerSave = async (flag) => {
+    save = async () => {
+        const {task} = this.props;
+        const params = this.editForm.getParams();
+        if (params.id) {
+            const resp = await task.updateTask(params);
+            if (resp.success) {
+                this.tip.show('编辑成功！');
+                this.table.refresh();
+                this.editDialog.close();
+            } else {
+                this.tip.show(resp.message || '编辑失败！');
+            }
+        }else{
+            const resp = await task.putTask(params);
+            if (resp.success) {
+                this.tip.show('保存成功！');
+                this.table.refresh();
+                this.editDialog.close();
+            } else {
+                this.tip.show(resp.message || '保存失败！');
+            }
+        }
+    }
+
+    handlerSave = (flag) => {
         if (flag) {
             if (this.editForm.isValid()) {
-                const {task} = this.props;
-                const resp = await task.updateTask(this.editForm.getParams());
-                if (resp.success) {
-                    this.tip.show('保存成功！');
-                    this.table.refresh();
-                    this.editDialog.close();
-                }
+                this.save();
             }
             return false;
         }
@@ -112,48 +116,53 @@ class BaseForm extends React.Component {
     }
 
     renderButtons(row) {
-        return (<span>
-            <Button theme='primary' className='mr-5'
-                    onClick={this.handlerLog.bind(this, row.id)}>日志</Button>
-            <Button theme='primary' className='mr-5'
-                    onClick={this.handlerEdit.bind(this, row.id)}>编辑</Button>
-            <Button theme='danger' className='mr-5'
-                    onClick={this.handlerDelete.bind(this, row.id)}>删除</Button>
-            <Button theme='primary' className='mr-5'
-                    onClick={this.handlerTaskIns.bind(this, row.id)}>组件管理</Button>
-        </span>);
-    }
+        const logBtn = <Button theme='primary' className='mr-5' onClick={this.handlerLog.bind(this, row.id)}>日志</Button>;
+        const _logBtn = <Button theme='primary' className='mr-5' disabled >日志</Button>;
+        const editBtn = <Button theme='primary' className='mr-5' onClick={this.handlerEdit.bind(this, row)}>编辑</Button>;
+        const _editBtn = <Button theme='primary' className='mr-5' disabled  >编辑</Button>;
+        const deleteBtn = <Button theme='danger' className='mr-5' onClick={this.handlerDelete.bind(this, row.id)}>删除</Button>;
+        const _deleteBtn = <Button theme='danger' className='mr-5' disabled >删除</Button>;
+        const intBtn = <Button theme='primary' className='mr-5' onClick={this.handlerTaskIns.bind(this, row.id)}>组件管理</Button>;
+        const _intBtn = <Button theme='primary' className='mr-5' disabled >组件管理</Button>;
+        const goBtn = <Button theme='primary' className='mr-5' onClick={this.handlerStartUp.bind(this, row.id)}>启动</Button>;
+        const noBtn = <Button theme='primary' className='mr-5' onClick={this.handlerStartUp.bind(this, row.id)}>暂停</Button>;
 
-    renderStatus(row) {
-        return (
-            <span>
-            <a className={'text-blue mr-5'} href='javascript:void(0)'
-               onClick={this.handlerStartUp.bind(this, row.id)}>启动</a>|
-            <a className={'text-blue ml-5'} href='javascript:void(0)'
-               onClick={this.handlerStartUp.bind(this, row.id)}>禁用</a>
-        </span>);
+        switch (row.taskStatus){
+            case 0:
+                return (<span>{goBtn}{editBtn}{deleteBtn}{intBtn}{_logBtn}</span>);
+            case 1:
+                return (<span>{noBtn}{_editBtn}{_deleteBtn}{_intBtn}{logBtn}</span>);
+            case 2:
+                return (<span>{goBtn}{editBtn}{deleteBtn}{intBtn}{logBtn}</span>);
+            default:
+                return '';
+        }
     }
 
     renderCronTable() {
         const cron = [
-            {name: 'id', text: '任务ID', type: 'index', style: {width: '70px'}},
+            {name: 'id', text: '任务ID', style: {width: '120px'}},
             {name: 'taskName', text: '任务名称'},
             {name: 'description', text: '描述'},
             {name: 'cron', text: 'cron'},
             {
                 name: 'timeType', text: '时间类型', format: (value) => {
-                return ['月', '周', '日', '小时', '分钟'][value];
+                return ['月', '周', '日', '小时', '分钟'][value - 1];
             }
             },
-            {name: 'author', text: '负责人', style: {width: '150px'}},
-            {name: 'email', text: '告警邮箱', style: {width: '150px'}},
+            {name: 'author', text: '负责人'},
             {
-                name: 'taskStatus', text: '状态', format: (value, column, row) => {
-                return this.renderStatus(row);
+                name: 'alarmEmails', text: '告警邮箱', format: (value) => {
+                return <div className='ellipsis cur-pointer' title={value} style={{width: '300px'}}>{value}</div>;
             }
             },
             {
-                name: 'op', text: '操作', style: {width: '300px'}, format: (value, column, row) => {
+                name: 'taskStatus', text: '状态', style: {width: '120px'}, format: (value) => {
+                return ['未启动', '运行中', '停止'][value];
+            }
+            },
+            {
+                name: 'op', text: '操作', style: {width: '350px'}, format: (value, column, row) => {
                 return this.renderButtons(row);
             }
             }
@@ -174,11 +183,11 @@ class BaseForm extends React.Component {
             {name: 'endTime', text: '终止时间'},
             {
                 name: 'timeType', text: '时间类型', format: (value) => {
-                return ['月', '周', '日', '小时', '分钟'][value];
+                return ['月', '周', '日', '小时', '分钟'][value - 1];
             }
             },
             {name: 'author', text: '负责人'},
-            {name: 'email', text: '告警邮箱', style: {width: '150px'}},
+            {name: 'alarmEmails', text: '告警邮箱', style: {width: '150px'}},
             {
                 name: 'op', text: '操作', style: {width: '300px'}, format: (value, column, row) => {
                 return this.renderButtons(row);
@@ -196,23 +205,13 @@ class BaseForm extends React.Component {
         const task = this.props.task;
 
         return <Dialog key={'edit-${task.editTaskType}'}
-                       title='' ref={(ref) => this.editDialog = ref}
+                       title={task.taskInfo.id ? '编辑任务' : '新建任务'}
+                       ref={(ref) => this.editDialog = ref}
                        content={<EditForm data={task.taskInfo}
                                           ref={(ref) => this.editForm = ref}
                                           spinning={task.isFetching}/>}
                        hasFooter
                        onConfirm={this.handlerSave}/>;
-    }
-
-    renderAddModal() {
-        const task = this.props.task;
-
-        return <Dialog key={'add-${task.editTaskType}'}
-                       title='' ref={(ref) => this.addDialog = ref}
-                       content={<EditForm data={task.taskInfo}
-                                          ref={(ref) => this.addForm = ref}/>}
-                       hasFooter
-                       onConfirm={this.handlerAdd}/>;
     }
 
     render() {
@@ -231,7 +230,6 @@ class BaseForm extends React.Component {
                                      value={task.getSelectData()[0].id}
                                      data={[...task.getSelectData()]}
                                      onChange={this.handlerTaskTypeChange.bind(this)}/>
-                        <FormControl type='hidden' name='start' className="searchItem"/>
                         <Button theme='primary' style={{'float': 'right'}}
                                 onClick={this.handlerCreate}>新增</Button>
                     </Form>
@@ -239,7 +237,6 @@ class BaseForm extends React.Component {
                 </Card>
 
                 {this.renderEditModal()}
-                {this.renderAddModal()}
 
                 <MessageBox ref={(f) => this.confirm = f} title='提示' type='confirm'
                             confirm={this.onConfirm.bind(this)}/>

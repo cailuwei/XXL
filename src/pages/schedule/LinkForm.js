@@ -7,15 +7,15 @@ import 'r-cmui/components/CheckBoxGroup';
 class Comp extends React.Component {
     displayName = 'Comp';
 
-    isValid () {
+    isValid() {
         return this.form.isValid();
     }
 
-    getParams () {
+    getParams() {
         return this.form.getFormParams();
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (nextProps.data != this.props.data) {
             this.form.setData(nextProps.data);
         }
@@ -33,15 +33,18 @@ class Comp extends React.Component {
         }
     }
 
-    render () {
+    render() {
         return (
             <div style={{width: 400, height: 300}} className='link-form'>
                 <Form ref={(f) => this.form = f} labelWidth={80} layout='stack-inline' data={this.props.data}>
-                    <FormControl ref={(f) => this.prefix = f} name='prefix' label='前置关系' type='checkbox' data={this.props.nodes} onChange={this.checkPreValid}/>
-                    <FormControl ref={(f) => this.suffix = f} name='suffix' label='后置关系' type='checkbox' data={this.props.nodes} onChange={this.checkSufValid}/>
+                    <FormControl ref={(f) => this.prefix = f} name='prefixId' label='前置关系' type='checkbox'
+                                 data={this.props.nodes} onChange={this.checkPreValid}/>
+                    <FormControl ref={(f) => this.suffix = f} name='nextId' label='后置关系' type='checkbox'
+                                 data={this.props.nodes} onChange={this.checkSufValid}/>
                 </Form>
             </div>
         );
     }
 }
+
 export default Comp;

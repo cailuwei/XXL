@@ -11,19 +11,24 @@ import API from '../../configs/api';
 class BaseForm extends React.Component {
     displayName = 'BaseForm'
 
-    checkLogInfo(id){
-        console.log(id);
+    checkLogInfo(row) {
+        window.open(API.LOG_HTML + `?id=${row.id}`);
     }
 
     render() {
+        const taskInstId = this.props.match.params.taskInstId;
         const single = [
-            {name: 'taskInstId', text: '实例Id'},
-            {name: 'id', text: 'job-id'},
+            {name: 'taskInstId', text: '实例Id', style: {width: '120px'}},
+            {name: 'id', text: 'job-id', style: {width: '120px'}},
             {name: 'handleTime', text: '执行时间'},
-            {name: 'handleMsg', text: '调度备注'},
+            {name: 'triggerMsg', text: '调度备注'},
             {
                 name: 'handleCode', text: '执行结果', format: (value) => {
-                return ['成功', '正在执行', '失败'][value+1];
+                const map = {
+                    200: '成功',
+                    500: '失败'
+                };
+                return map[value];
             }
             },
             {name: 'executorParam', text: '执行参数'},
@@ -31,7 +36,7 @@ class BaseForm extends React.Component {
                 name: 'op', text: '操作', style: {width: "150px"}, format: (value, column, row) => {
                 return <span>
                 <Button theme='primary' className='mr-5'
-                        onClick={this.checkLogInfo.bind(this, row.id)} >日志</Button>
+                        onClick={this.checkLogInfo.bind(this, row)}>日志</Button>
             </span>;
             }
             }
@@ -45,6 +50,7 @@ class BaseForm extends React.Component {
 
                 <Card className='mt-30'>
                     <SimpleListPage pagination
+                                    searchParams={{taskInstId}}
                                     columns={single}
                                     action={API.LOG['JOB_LIST']}/>
                 </Card>

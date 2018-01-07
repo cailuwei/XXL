@@ -39,11 +39,14 @@ import FontIcon from 'r-cmui/components/FontIcon';
 import Badge from 'r-cmui/components/Badge';
 import Dropdown from 'r-cmui/components/Dropdown';
 import Menu from 'r-cmui/components/Menu';
+import MessageBox from 'r-cmui/components/MessageBox';
 import Nav from './Nav';
 import routers from './routers';
+import fetch from 'r-cmui/components/utils/fetch';
+import API from './configs/api';
+
 const {Header, Content} = Layout;
 const {Item, Divider} = Menu;
-
 
 class App extends React.Component {
     displayName = 'App';
@@ -59,14 +62,14 @@ class App extends React.Component {
         });
     }
 
-    setCollapse (collapse) {
+    setCollapse(collapse) {
         this.setState({collapse}, () => {
             this.refs.nav.setCollapse(collapse);
             this.refs.sider.setCollapsed(collapse);
         });
     }
 
-    componentDidMount () {
+    componentDidMount() {
         window.addEventListener('resize', () => {
             if (document.documentElement.clientWidth <= 992) {
                 this.setCollapse(true);
@@ -76,29 +79,52 @@ class App extends React.Component {
         }, false);
     }
 
-    renderUserMenu () {
-        return <Menu>
-            <Item><FontIcon icon='user' className='mr-10'/>个人中心</Item>
-            <Item><FontIcon icon='cog' className='mr-10'/>设置</Item>
-            <Divider/>
-            <Item><FontIcon icon='sign-out' className='mr-10'/>退出系统</Item>
+    handlerComfirm() {
+        if (this.tip.getData()) {
+            window.location.href = API.LOG_HTML;
+        }
+    }
+
+    logout = async () => {
+        const resp = await fetch(API.LOGOUT, {}, 'post');
+
+        if (resp && resp.success) {
+            this.tip.show('注销成功！');
+            this.tip.setData(true);
+        } else {
+            this.tip.show(resp.message || '注销失败！');
+        }
+
+    }
+
+    clickMenuItem() {
+        this.logout();
+    }
+
+    renderUserMenu() {
+        return <Menu onSelect={this.clickMenuItem.bind(this)}>
+            {/*<Item><FontIcon icon='user' className='mr-10'/>个人中心</Item>*/}
+            {/*<Item><FontIcon icon='cog' className='mr-10'/>设置</Item>*/}
+            {/*<Divider/>*/}
+            <Item><FontIcon icon='sign-out' className='mr-10'/>注销</Item>
         </Menu>;
     }
-    
-    render () {
+
+    render() {
         return (
             <Layout className='app'>
                 <Sider ref='sider'>
-                    <div className='text-center logo'>{'XXL'}</div>
+                    <div className='text-center logo'>{'OAS-ETL'}</div>
                     <Nav ref='nav'/>
                 </Sider>
                 <Layout style={{background: '#f0f2f5'}}>
                     <Header>
-                        <FontIcon icon={this.state.collapse ? 'indent' : 'dedent'} className='menu-collapse' onClick={this.collapse}></FontIcon>
+                        <FontIcon icon={this.state.collapse ? 'indent' : 'dedent'} className='menu-collapse'
+                                  onClick={this.collapse}></FontIcon>
                         <div className='pull-right'>
-                            <Badge count={13}><FontIcon icon='bell-o' style={{fontSize: 17}}></FontIcon></Badge>
+                            {/*<Badge count={13}><FontIcon icon='bell-o' style={{fontSize: 17}}></FontIcon></Badge>*/}
                             <Dropdown overlay={this.renderUserMenu()} align='bottomRight'>
-                                <span id='username'>admin</span>
+                                <span id='username'>{'admin' + ', 您好！'}</span>
                             </Dropdown>
                         </div>
                     </Header>
@@ -111,6 +137,8 @@ class App extends React.Component {
                         </div>
                     </Content>
                 </Layout>
+
+                <MessageBox ref={(f) => this.tip = f} title='提示' confirm={this.handlerComfirm.bind(this)}/>
             </Layout>
         );
     }

@@ -23,20 +23,21 @@ body {
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 }
 
-.menu-collapse{
+.menu-collapse {
   font-size: 20px;
   cursor: pointer;
 }
 
-.app{
-  >.cm-layout{
-    >.cm-layout-sider{
+.app {
+  > .cm-layout {
+    > .cm-layout-sider {
       background: #fff;
       border-right: 1px solid #e7e7e7;
     }
   }
 }
-.logo{
+
+.logo {
   height: 64px;
   line-height: 64px;
   font-size: 24px;
@@ -56,7 +57,7 @@ blockquote {
   padding: 0;
 }
 
-.cm-menu{
+.cm-menu {
   box-shadow: none;
 }
 
@@ -78,22 +79,32 @@ blockquote {
   transition: opacity 300ms ease-in;
 }
 
-.card-row{
+.card-row {
   margin-left: -10px;
   margin-right: -10px;
-  .card-col{
+  .card-col {
     padding: 0 10px;
   }
 }
 
-.font30{
+.font30 {
   font-size: 30px;
 }
 
-.trend{
+.trend {
   height: 45px;
   padding-top: 20px;
-  &.has-chart{
+  &.has-chart {
     padding-top: 0;
   }
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.cur-pointer {
+  cursor: pointer;
 }
