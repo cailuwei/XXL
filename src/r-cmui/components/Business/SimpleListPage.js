@@ -56,9 +56,8 @@ class SimpleListPage extends React.Component {
             pageSize,
             /**
              * cailuwei add 2017-12-29
-             * 新版ETL
              */
-            start: (page - 1) * pageSize
+            start: pageSize * (page - 1)
         };
 
         const sort = [];
@@ -150,7 +149,6 @@ class SimpleListPage extends React.Component {
     }
 
     componentDidMount () {
-        this.search(1, this.props.pageSize);
         let searchBtn;
         if (this.props.searchBtn && typeof this.props.searchBtn === 'function') {
             searchBtn = this.props.searchBtn();
@@ -192,6 +190,11 @@ class SimpleListPage extends React.Component {
                 };
             }
         }
+
+        /**
+         * cailuwei update 2017-01-09
+         */
+        this.search(1, this.props.pageSize);
     }
 
     refresh () {

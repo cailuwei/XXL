@@ -39,15 +39,18 @@ class Comp extends React.Component {
                           data={this.props.data}>
                         <FormControl name='id' type='hidden'/>
                         <FormControl ref={(f) => this.jobGroup = f} name='jobGroup' label='执行器:' type='select'
-                                     placeholder='执行器'
+                                     placeholder='请输入执行器'
                                      data={this.props.jobGroupList} required/>
                         <FormControl name='jobName' label='job名称:' type='text' required height={100}
-                                     rules={{maxLength: 50}}/>
+                                     rules={{maxLength: 50}}
+                                     placeholder='请输入job名称'/>
                         <FormControl name='jobDesc' label='job描述:' type='textarea' required height={100}
-                                     rules={{maxLength: 255}}/>
-                        <FormControl name='author' label='负责人:' type='text' required rules={{maxLength: 64}}/>
-                        <FormControl ref={(f) => this.strategy = f} name='ExecutorRouteStrategyEnum' label='路由策略:'
-                                     type='select' placeholder='路由策略'
+                                     rules={{maxLength: 255}}
+                                     placeholder='请输入job描述'/>
+                        <FormControl name='author' label='负责人:' type='text' required rules={{maxLength: 64}}
+                                     placeholder='请输入负责人'/>
+                        <FormControl name='executorRouteStrategy' label='路由策略:' type='select'
+                                     placeholder='请选择路由策略'
                                      data={this.props.strategyList} required/>
                     </Form>
                 </div>

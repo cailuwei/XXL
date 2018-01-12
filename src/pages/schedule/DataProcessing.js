@@ -55,12 +55,14 @@ class DataProcessing {
 
         // 前置
         const pIds = parentIds.split(',');
+        const old_pIds = [];
         if (node.parents) {
             node.parents.forEach((parent) => {
                 const index = pIds.indexOf(parent.id);
                 if (index > -1) {
                     pIds.splice(index, 1);
                 } else {
+                    old_pIds.push(parent.id);
                     // 已经取消该父节点
                     const index = parent.items.indexOf(node.id);
                     if (index > -1) {
@@ -71,21 +73,27 @@ class DataProcessing {
         }
 
         this.orign.forEach((item) => {
-            pIds.forEach((pId) => {
-                if (pId) {
-                    if (item.id === pId) {
-                        if (item.items) {
-                            item.items.push(node.id);
-                        } else {
-                            item.items = [node.id];
-                        }
-                    }
-                } else {
+            /**
+             * cailuwei update
+             * 2018-01-08
+             */
+            old_pIds.forEach((pId) => {
+                if (item.id === pId) {
                     if (item.items) {
                         const index = item.items.indexOf(node.id);
                         if (index > -1) {
                             item.items.splice(index, 1);
                         }
+                    }
+                }
+            });
+
+            pIds.forEach((pId) => {
+                if (item.id === pId) {
+                    if (item.items) {
+                        item.items.push(node.id);
+                    } else {
+                        item.items = [node.id];
                     }
                 }
             });

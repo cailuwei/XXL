@@ -114,13 +114,14 @@ class App extends React.Component {
         return (
             <Layout className='app'>
                 <Sider ref='sider'>
-                    <div className='text-center logo'>{'OAS-ETL'}</div>
+                    <div className='text-center logo'
+                         style={{overflow: this.state.collapse ? 'hidden' : 'auto'}}>{'OAS-ETL'}</div>
                     <Nav ref='nav'/>
                 </Sider>
                 <Layout style={{background: '#f0f2f5'}}>
                     <Header>
                         <FontIcon icon={this.state.collapse ? 'indent' : 'dedent'} className='menu-collapse'
-                                  onClick={this.collapse}></FontIcon>
+                                  onClick={this.collapse}/>
                         <div className='pull-right'>
                             {/*<Badge count={13}><FontIcon icon='bell-o' style={{fontSize: 17}}></FontIcon></Badge>*/}
                             <Dropdown overlay={this.renderUserMenu()} align='bottomRight'>

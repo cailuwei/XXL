@@ -26,13 +26,16 @@ class Comp extends React.Component {
         logInfo: ''
     };
 
+    timer = {};
+
     constructor(props) {
         super(props);
 
         this.params = {
-            executorAddress: EXECUTOR_ADDRESS ,
-            triggerTime: TRIGGER_TIME,
-            logId: LOG_ID
+            executorAddress: EXECUTOR_ADDRESS,
+            triggerTime: parseInt(TRIGGER_TIME, 10),
+            logId: parseInt(LOG_ID, 10),
+            fromLineNum: 0
         };
     }
 
@@ -40,22 +43,26 @@ class Comp extends React.Component {
         this.getLogInfo();
     }
 
-    componentDidUpdate() {
-        let timer = setTimeout(() => {
-            clearTimeout(timer);
-            this.getLogInfo();
-        }, 3000);
-    }
-
     getLogInfo = async () => {
-        const resp = await fetch(API.LOG.GTE_LOG_INFO, this.params, 'post');
+        clearTimeout(this.timer);
 
-        if (resp && resp.success) {
+        const ret = await fetch(API.LOG.GET_LOG_INFO, this.params, 'post');
+
+        if (ret && ret.success) {
+            const data = ret.data || {};
             this.setState({
-                'logInfo': resp.LogResult
+                'logInfo': data.logContent
             });
+
+            if (!data.end) {
+                this.params.fromLineNum = data.toLineNum;
+                this.timer = setTimeout(() => {
+                    this.getLogInfo();
+                }, 3000);
+            }
+
         } else {
-            this.tip.show(resp.message || '获取日志信息失败！');
+            this.tip.show(ret.message || '获取日志信息失败！');
         }
     }
 
@@ -68,7 +75,7 @@ class Comp extends React.Component {
             <Layout className='app'>
                 <Header>
                     <div style={{width: 1200, margin: '0 auto'}} className='job-code-header'>
-                        {/*<span className='jobName'>GLUE模式(Java) 日志：<span>asd</span></span>*/}
+                        <span className='jobName'>GLUE模式(shell) 日志</span>
 
                         <Button onClick={this.refresh}
                                 theme='primary'

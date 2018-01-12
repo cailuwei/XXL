@@ -53,7 +53,7 @@ export default async (url = '', data = {}, type = 'GET', fail, header)=>{
         return responseJson;
     } catch (error) {
         console.error(error);
-        if(fail) {
+        if(fail && typeof fail === 'function') {
             fail(error);
         }
     }

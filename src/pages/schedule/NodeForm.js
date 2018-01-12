@@ -1,7 +1,6 @@
 import React from 'react';
 import Form from 'r-cmui/components/Form';
 import FormControl from 'r-cmui/components/FormControl';
-import API from '../../configs/api';
 
 import 'r-cmui/components/Input';
 import 'r-cmui/components/Select';
@@ -33,21 +32,26 @@ class Comp extends React.Component {
         return this.form.getFormParams();
     }
 
-    changeJob = (value, item) => {
-        this.name.setValue(item.name);
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data != this.props.data) {
+            this.form.setData(nextProps.data);
+        }
     }
 
     render() {
         return (
-            <div style={{width: 400}}>
-                <Form ref={(f) => this.form = f} labelWidth={80} layout='stack-inline' data={this.props.data}>
-                    <FormControl name='id' type='hidden' ref={(f) => this.name = f}/>
+            <div style={{width: 500}}>
+                <Form ref={(f) => this.form = f} labelWidth={85} layout='stack-inline' data={this.props.data}>
+                    <FormControl name='id' type='hidden'/>
                     <FormControl name='taskId' type='hidden'/>
-                    <FormControl onChange={this.changeJob} name='jobId' textField='name' label='选择Job' type='select'
-                                 data={API.SCHEDULE.JOB_LIST} required />
-                    <FormControl name='jobDesc' label='描述' type='textarea' required height={80} rules={{maxLength: 250}}/>
-                    <FormControl name='params' label='执行参数' placeholder='只能输入英文逗号做间隔' type='textarea' height={80}
-                                 rules={{englishOnly: true, maxLength: 250}}/>
+                    <FormControl name='jobId' label='选择Job' type='select' data={this.props.jobInfoList} required
+                                 placeholder='请选择job'/>
+                    <FormControl name='jobDesc' label='描述' type='textarea' required height={80}
+                                 rules={{maxLength: 250}}
+                                 placeholder='请输入描述'/>
+                    <FormControl name='params' label='执行参数' type='textarea' height={80}
+                                 rules={{maxLength: 250}}
+                                 placeholder='请输入执行参数'/>
                 </Form>
             </div>
         );

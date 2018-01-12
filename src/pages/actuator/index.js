@@ -16,7 +16,7 @@ class Actuator extends React.Component {
     displayName = 'Actuator';
 
     columns = [
-        {name: 'order', text: '排序', style: {width: '120px'}},
+        // {name: 'order', text: '排序', style: {width: '120px'}},
         {name: 'appName', text: 'AppName'},
         {name: 'title', text: '名称'},
         {
@@ -24,7 +24,9 @@ class Actuator extends React.Component {
             return this.props.actuator.addressType[value];
         }
         },
-        {name: 'registryList', text: 'OnLine 机器'},
+        {name: 'registryList', text: '机器地址', format: (value) => {
+            return <div className='ellipsis cur-pointer' title={value} style={{width: '150px'}}>{value}</div>;
+        }},
         {
             name: 'op', text: '操作', format: (value, column, row) => {
             return <span>
@@ -42,16 +44,20 @@ class Actuator extends React.Component {
         this.deleteConfirm.setData(id);
     }
 
-    doDelete = async () => {
-        const id = this.deleteConfirm.getData();
-        this.props.actuator.deleteActuator(id, (ret) => {
-            if (ret && ret.success) {
-                this.tip.show('删除成功');
-                this.table.refresh();
-            } else {
-                this.tip.show('删除失败');
-            }
-        });
+    doDelete = async (flag) => {
+        if(flag) {
+            const id = this.deleteConfirm.getData();
+            this.props.actuator.deleteActuator(id, (ret) => {
+                if (ret && ret.success) {
+                    this.tip.show('删除成功');
+                    this.table.refresh();
+                } else {
+                    this.tip.show(ret.message || '删除失败');
+                }
+            });
+        }
+
+        return true;
     }
 
     openDialog = () => {
@@ -115,7 +121,7 @@ class Actuator extends React.Component {
                                     action={API.ACTUATOR.LIST}/>
                 </Card>
 
-                <Dialog ref={(f) => this.addDialog = f} title={formData.id ? '编辑执行器' : '新增执行器'}
+                <Dialog ref={(f) => this.addDialog = f} title={formData.id ? '编辑执行器' : '添加执行器'}
                         onConfirm={this.saveForm}
                         content={<Form ref={(f) => this.form = f} data={formData}/>}/>
                 <MessageBox ref={(f) => this.deleteConfirm = f} title='提示' type='confirm' confirm={this.doDelete}/>

@@ -91,14 +91,19 @@ class Page extends Component {
         });
     }
 
+
     editNode (id, params) {
+        /**
+         * cailuwei update
+         * 2018-01-10
+         */
         const item = this.nodeMap[id];
         if (item) {
             // item = Object.assign(item, params);
             item.jobId = params.jobId;
-            item.desc = params.desc;
-            item.name = params.name;
-            item.parameters = params.parameters;
+            item.jobDesc = params.jobDesc;
+            item.jobName = params.jobName;
+            item.params = params.params;
             const data = this.state.data;
             this.setState({data});
         }
@@ -161,30 +166,20 @@ class Page extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        // if (nextProps.data !== this.props.data) {
-        //     const newData = [];
-        //     if (nextProps.data) {
-        //         this.rebuildData(nextProps.data, newData);
-        //     }
+        if (nextProps.data !== this.props.data && nextProps.data !== this.state.data) {
+            if (nextProps.data) {
+                this.rebuildData(nextProps.data);
+            }
 
-        //     if (this._isMounted) {
-        //         this.setState({
-        //             data: newData
-        //         }, () => {
-        //             this.updateCanvasSize();
-        //             this.paper.clear();
-
-        //             this.lines = {};
-        //             this.renderLinks();
-
-        //             this.pBoxs = {};
-        //             this.ptBoxs = {};
-        //             this.tBoxs = {};
-
-        //             this.renderBoxes();
-        //         });
-        //     }
-        // }
+            if (this._isMounted) {
+                this.setState({
+                    data: this.dp.data
+                }, () => {
+                    this.updateCanvasSize();
+                    this.reRenderBoxsAndLines();
+                });
+            }
+        }
     }
 
     /**
@@ -429,7 +424,7 @@ class Page extends Component {
             if (item != node) {
                 nodes.push({
                     id: item.id,
-                    text: item.name
+                    text: item.jobName
                 });
             }
         });

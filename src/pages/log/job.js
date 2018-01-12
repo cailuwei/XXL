@@ -18,10 +18,14 @@ class BaseForm extends React.Component {
     render() {
         const taskInstId = this.props.match.params.taskInstId;
         const single = [
-            {name: 'taskInstId', text: '实例Id', style: {width: '120px'}},
-            {name: 'id', text: 'job-id', style: {width: '120px'}},
+            {name: 'taskInstId', text: '实例ID', style: {width: '120px'}},
+            {name: 'id', text: 'jobID', style: {width: '120px'}},
             {name: 'handleTime', text: '执行时间'},
-            {name: 'triggerMsg', text: '调度备注'},
+            {
+                name: 'triggerMsg', text: '调度备注', format: (value) => {
+                return <div className='ellipsis cur-pointer' title={value} style={{width: '200px'}}>{value}</div>;
+            }
+            },
             {
                 name: 'handleCode', text: '执行结果', format: (value) => {
                 const map = {
@@ -45,6 +49,8 @@ class BaseForm extends React.Component {
         return (
             <div>
                 <Breadcrumb>
+                    <Breadcrumb.Item>任务管理</Breadcrumb.Item>
+                    <Breadcrumb.Item>任务日志</Breadcrumb.Item>
                     <Breadcrumb.Item>job日志</Breadcrumb.Item>
                 </Breadcrumb>
 

@@ -58,20 +58,20 @@ class Comp extends React.Component {
         const display = `${this.state.addressType}` === '0' ? 'none' : 'block';
         return (
             <div style={{width: 500}}>
-                <Form ref={(f) => this.form = f} layout='stack-inline' labelWidth={100} data={this.props.data}>
+                <Form ref={(f) => this.form = f} layout='stack-inline' labelWidth={85} data={this.props.data}>
                     <FormControl name='id' type='hidden'/>
                     <FormControl name='appName' type='text' label='AppName' placeholder='请输入AppName'
                                  required rules={{maxLength: 64}}/>
                     <FormControl name='title' type='text' label='名称' placeholder='请输入名称' required
                                  rules={{maxLength: 12}}/>
-                    <FormControl name='order' type='integer' label='排序' placeholder='请输入排序' required/>
+                    {/*<FormControl name='order' type='integer' label='排序' placeholder='请输入排序' required/>*/}
                     <FormControl name='addressType' type='radio' label='注册方式' required value='0'
                                  data={this.addressType}
                                  onChange={this.switchAddressType}/>
                     <FormControl style={{display}}
-                                 name='addressList' type='text' label='机器地址' placeholder='请输入执行机器地址列表，多地址用英文逗号分隔'
+                                 name='addressList' type='text' label='机器地址' placeholder='请输入执行机器地址，多地址用英文逗号分隔'
                                  required
-                                 rules={{ips: true, maxLength: 200}}/>
+                                 rules={{maxLength: 200}}/>
                 </Form>
             </div>
         );

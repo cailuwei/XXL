@@ -36,7 +36,7 @@ class Item extends Component {
             return this.props.renderItem;
         }
         return <div>
-            <div className='flow-item-name'>{data.name}</div>
+            <div className='flow-item-name'>{data.jobName}</div>
         </div>;
     }
 

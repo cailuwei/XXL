@@ -15,6 +15,7 @@ export default {
     },
     SCHEDULE: {
         GET_SCHEDULE: `${HOST}/schedule/info`,
+        GET_JOB_INFO: `${HOST}/schedule/job/info`,
         ADD_NODE: `${HOST}/success`,
         EDIT_NODE: `${HOST}/success`,
         DELETE_NODE: `${HOST}/success`,
@@ -39,7 +40,9 @@ export default {
         DELETE_TASK: `${HOST}/success`,
         ADD_TASK: `${HOST}/success`,
         EDIT_TASK: `${HOST}/success`,
-        TOGGLE_STATUS: `${HOST}/success`,
+        START: `${HOST}/success`,
+        PAUSE: `${HOST}/success`,
+        TRIGGER: `${HOST}/success`,
         GET_TASK_INFO: `${HOST}/taskManage/detail`
     },
     LOG: {
@@ -74,6 +77,7 @@ export default {
 //     },
 //     SCHEDULE: {
 //         GET_SCHEDULE: `${HOST}/taskJobRelation/relationInfo`,
+//         GET_JOB_INFO: `${HOST}/taskJobRelation/base`,
 //         ADD_NODE: `${HOST}/taskJobRelation/add`,
 //         EDIT_NODE: `${HOST}/taskJobRelation/edit`,
 //         DELETE_NODE: `${HOST}/taskJobRelation/delete`,
@@ -98,14 +102,16 @@ export default {
 //         DELETE_TASK: `${HOST}/taskinfo/remove`,
 //         ADD_TASK: `${HOST}/taskinfo/add`,
 //         EDIT_TASK: `${HOST}/taskinfo/edit`,
-//         TOGGLE_STATUS: `${HOST}/taskinfo/changeStatus`,
+//         START: `${HOST}/taskinfo/start`,
+//         PAUSE: `${HOST}/taskinfo/pause`,
+//         TRIGGER: `${HOST}/taskinfo/trigger`,
 //         GET_TASK_INFO: `${HOST}/`
 //     },
 //     LOG: {
 //         TASK_LIST: `${HOST}/taskMonitor/loadByTaskId`,
 //         JOB_LIST: `${HOST}/joblog/pageList`,
 //         RE_IMPL: `${HOST}/taskMonitor/reStart`,
-//         GET_LOG_INFO: `${HOST}joblog/logDetailCat`,
+//         GET_LOG_INFO: `${HOST}/joblog/logDetailCat`,
 //     },
 //     LOGIN: `${HOST}/login`,
 //     LOGOUT: `${HOST}/logout`,

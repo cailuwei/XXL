@@ -15,7 +15,8 @@ class List extends React.Component {
     displayName = 'List';
 
     cron = [
-        {name: 'id', text: 'job-id', style: {width: '120px'}},
+        {name: 'id', text: 'jobID', style: {width: '120px'}},
+        {name: 'jobName', text: 'job名称', style: {width: '120px'}},
         {
             name: 'jobDesc', text: 'job描述', tip: true, format: (value) => {
             return <div className='ellipsis cur-pointer' title={value} style={{width: '300px'}}>{value}</div>;
@@ -27,7 +28,7 @@ class List extends React.Component {
         }
         },
         {name: 'executorRouteStrategy', text: '路由策略'},
-        {name: 'glueType', text: '运行模式'},
+        // {name: 'glueType', text: '运行模式'},
         {
             name: 'op', text: '操作', style: {width: '250px'}, format: (value, colunmn, row) => {
             return this.renderButtons(row);
@@ -104,20 +105,20 @@ class List extends React.Component {
         if (params.id) {
             const ret = await job.updateJob(params);
             if (ret && ret.success) {
-                this.tip.show('编辑Job成功');
+                this.tip.show('编辑成功');
                 this.table.refresh();
                 this.editDialog.close();
             } else {
-                this.tip.show(ret.message || '编辑Job失败');
+                this.tip.show(ret.message || '编辑失败');
             }
         } else {
             const ret = await job.putJob(params);
             if (ret && ret.success) {
-                this.tip.show('新增Job成功');
+                this.tip.show('保存成功');
                 this.table.refresh();
                 this.editDialog.close();
             } else {
-                this.tip.show(ret.message || '新增Job失败');
+                this.tip.show(ret.message || '保存失败');
             }
         }
     }
@@ -140,12 +141,12 @@ class List extends React.Component {
         return (
             <div>
                 <Breadcrumb>
-                    <Breadcrumb.Item>job列表</Breadcrumb.Item>
+                    <Breadcrumb.Item>job管理</Breadcrumb.Item>
                 </Breadcrumb>
 
                 <Card className='mt-30'
                       tools={[<Button key='btn-add' style={{color: '#fff'}} theme='primary' icon='plus'
-                                      onClick={this.openAddDialog}>新增Job</Button>]}>
+                                      onClick={this.openAddDialog}>添加Job</Button>]}>
                     <SimpleListPage
                         ref={(f) => this.table = f}
                         pagination
@@ -154,14 +155,14 @@ class List extends React.Component {
                 </Card>
 
                 <Dialog
-                    title={job.jobInfo.id ? '编辑job' : '新建job'}
+                    title={job.jobInfo.id ? '编辑job' : '添加job'}
                     ref={(ref) => this.editDialog = ref}
                     onConfirm={this.saveEdit}
                     content={(jobGroupList && jobGroupList.length) ? <Form ref={(f) => this.editForm = f}
                                                                            data={job.jobInfo}
                                                                            spinning={job.isFetching}
                                                                            jobGroupList={jobGroupList}
-                                                                           strategyList={strategyList}/> : null}/>
+                                                                           strategyList={strategyList}/> : '执行器列表为空'}/>
 
                 <Dialog title='提示' ref={(ref) => this.editTip = ref} hasFooter onConfirm={this.chooseIsAdd.bind(this)}
                         content={"是否新建job来保存修改"}/>

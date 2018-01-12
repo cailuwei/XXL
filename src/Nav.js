@@ -3,12 +3,13 @@ import FontIcon from 'r-cmui/components/FontIcon';
 import Menu from 'r-cmui/components/Menu';
 import data from './menu';
 import store from 'store';
+
 const {SubMenu, MenuItemGroup} = Menu;
 
 class Nav extends PureComponent {
     displayName = 'Nav';
-    
-    constructor (props) {
+
+    constructor(props) {
         super(props);
 
         this.menuIndex = 0;
@@ -18,7 +19,7 @@ class Nav extends PureComponent {
         collapse: false
     };
 
-    setCollapse (collapse) {
+    setCollapse(collapse) {
         this.setState({
             collapse
         }, () => {
@@ -26,7 +27,7 @@ class Nav extends PureComponent {
         });
     }
 
-    gotoPage (item) {
+    gotoPage(item) {
         if (this._init) {
             const url = store.get('xxl-lastVisitURL');
             window.location.hash = url;
@@ -37,7 +38,7 @@ class Nav extends PureComponent {
         }
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this._init = true;
         const key = store.get('xxl-lastSelectKey');
         if (key) {
@@ -49,16 +50,18 @@ class Nav extends PureComponent {
         }
     }
 
-    renderMenu () {
+    renderMenu() {
         return data.map((menuItem) => {
-            this.menuIndex ++;
+            this.menuIndex++;
             if (menuItem.link) {
-                const icon = menuItem.icon ? <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
+                const icon = menuItem.icon ?
+                    <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
                 return <Menu.Item key={this.menuIndex} identify={menuItem.identify} href={menuItem.link}>
                     {icon} {this.state.collapse ? '' : menuItem.text}
                 </Menu.Item>;
             } else {
-                return <SubMenu key={this.menuIndex} title={menuItem.icon ? <span><FontIcon icon={menuItem.icon}></FontIcon> {this.state.collapse ? '' : menuItem.text}</span>
+                return <SubMenu key={this.menuIndex} title={menuItem.icon ?
+                    <span><FontIcon icon={menuItem.icon}></FontIcon> {this.state.collapse ? '' : menuItem.text}</span>
                     : menuItem.text
                 }>
                     {this.renderSubMenu(menuItem.children)}
@@ -67,11 +70,12 @@ class Nav extends PureComponent {
         });
     }
 
-    renderSubMenu (subMenus) {
+    renderSubMenu(subMenus) {
         return subMenus.map((menuItem) => {
-            this.menuIndex ++;
+            this.menuIndex++;
             if (menuItem.link) {
-                const icon = menuItem.icon ? <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
+                const icon = menuItem.icon ?
+                    <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
                 return <Menu.Item key={this.menuIndex} identify={menuItem.identify} href={menuItem.link}>
                     {icon} {menuItem.text}
                 </Menu.Item>;
@@ -83,11 +87,12 @@ class Nav extends PureComponent {
         });
     }
 
-    renderMenuItemGroup (subMenus) {
+    renderMenuItemGroup(subMenus) {
         return subMenus.map((menuItem) => {
-            this.menuIndex ++;
+            this.menuIndex++;
             if (menuItem.link) {
-                const icon = menuItem.icon ? <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
+                const icon = menuItem.icon ?
+                    <FontIcon icon={menuItem.icon} style={{marginRight: '8px'}}></FontIcon> : null;
                 return <Menu.Item key={this.menuIndex} identify={menuItem.identify} href={menuItem.link}>
                     {icon} {menuItem.text}
                 </Menu.Item>;
@@ -97,10 +102,10 @@ class Nav extends PureComponent {
         });
     }
 
-    render () {
+    render() {
         return (
-            <Menu ref='menu' 
-                style={{width: this.state.collapse ? 64 : 200}} theme='dark' onSelect={this.gotoPage.bind(this)}>
+            <Menu ref='menu'
+                  style={{width: this.state.collapse ? 64 : 200}} theme='dark' onSelect={this.gotoPage.bind(this)}>
                 {this.renderMenu()}
             </Menu>
         );

@@ -6,10 +6,12 @@ useStrict(true); // 使用严格模式
 
 export default class Job {
     orignData = {
-        actuator: '',
-        desc: '',
-        person: '',
-        strategy: '',
+        id: '',
+        jobGroup: '',
+        jobName: '',
+        jobDesc: '',
+        author: '',
+        executorRouteStrategy: '',
         runMode: ''
     };
 
@@ -65,20 +67,28 @@ export default class Job {
         this.isFetching = false;
     }
 
+    e
+
     @action
     setJobInfo(data) {
+        data.id = data.id ? data.id.toString() : '';
+        data.jobGroup = data.jobGroup ? data.jobGroup.toString() : '';
         this.jobInfo = data;
     }
 
     @action
     setBaseInfo(data) {
-        this.strategyList = data.ExecutorRouteStrategyEnum ? data.ExecutorRouteStrategyEnum.map((item) => {
-            return {'id': item, 'text': item};
-        }) : [];
+        const strategyList = data.ExecutorRouteStrategyEnum || {};
+        let list = [];
+        for (let key in strategyList) {
+            list.push({'id': key, 'text': strategyList[key]});
+        }
+        this.strategyList = list;
+
         let map = {};
         this.jobGroupList = data.JobGroupList ? data.JobGroupList.map((item) => {
             map[item.id] = item.title;
-            return {'id': item.id, 'text': item.title};
+            return {'id': item.id.toString(), 'text': item.title};
         }) : [];
         this.jobGroupMaps = map;
     }

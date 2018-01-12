@@ -23,7 +23,7 @@ class Comp extends React.Component {
                       labelWidth={85}
                       layout='stack-inline'
                       data={this.props.data}>
-                    <FormControl name='glueRemark' label='脚本备注' type='type' placeholder='请输入脚本备注！' required
+                    <FormControl name='glueRemark' label='脚本备注' type='type' placeholder='请输入脚本备注' required
                                  rules={{maxLength: 128}}/>
                 </Form>
             </div>

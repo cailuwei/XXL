@@ -77,7 +77,7 @@ class BaseForm extends React.Component {
             {name: 'timeParam', text: '时间参数'},
             {
                 name: 'taskInstStatus', text: '执行状态', format: (value) => {
-                return ['待执行', '正在执行', '执行失败', '执行成功并结'][value];
+                return ['待执行', '执行中', '失败', '成功'][value];
             }
             },
             {
@@ -103,6 +103,7 @@ class BaseForm extends React.Component {
         return (
             <div>
                 <Breadcrumb>
+                    <Breadcrumb.Item>任务管理</Breadcrumb.Item>
                     <Breadcrumb.Item>任务日志</Breadcrumb.Item>
                 </Breadcrumb>
 

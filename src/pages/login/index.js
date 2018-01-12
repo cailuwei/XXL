@@ -47,7 +47,7 @@ class Comp extends React.Component {
     render() {
         return (
             <Layout className='app' style={{background: '#f0f2f5'}}>
-                <Header>XXL-JOB</Header>
+                <Header>OAS-ETL</Header>
                 <Content>
                     <SVGSpin spinning={this.state.spinning}>
                         <Form ref={(ref) => this.form = ref}

@@ -169,7 +169,13 @@ class DateRange extends BaseComponent {
                 this._selectedDate[1] = moment(value);
                 this.updateRange();
                 this._selectDate();
-                this.hide();
+                /**
+                 * cailuwei update
+                 * 2018-01-11
+                 */
+                if(!this.props.showTime){
+                    this.hide();
+                }
             }
         }
     }
@@ -187,12 +193,19 @@ class DateRange extends BaseComponent {
             this._selectedDate[1] = null;
             this.updateRange();
         } else {
+            console.log(this);
             if (this._inMaxRange(value)) {
                 this._isSelecting = false;
                 this._selectedDate[1] = moment(value);
                 this.updateRange();
                 this._selectDate();
-                this.hide();
+                /**
+                 * cailuwei update
+                 * 2018-01-11
+                 */
+                if(!this.props.showTime){
+                    this.hide();
+                }
             }
         }
     }

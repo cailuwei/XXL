@@ -35,8 +35,8 @@ class Comp extends React.Component {
 
     render() {
         return (
-            <div style={{width: 400, height: 300}} className='link-form'>
-                <Form ref={(f) => this.form = f} labelWidth={80} layout='stack-inline' data={this.props.data}>
+            <div style={{width: 500}} className='link-form'>
+                <Form ref={(f) => this.form = f} labelWidth={85} layout='stack-inline' data={this.props.data}>
                     <FormControl ref={(f) => this.prefix = f} name='prefixId' label='前置关系' type='checkbox'
                                  data={this.props.nodes} onChange={this.checkPreValid}/>
                     <FormControl ref={(f) => this.suffix = f} name='nextId' label='后置关系' type='checkbox'

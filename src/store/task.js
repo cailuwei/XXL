@@ -44,16 +44,28 @@ export default class Task {
     }
 
     async putTask(params) {
-        params.endTime = params.timeRange[1];
-        params.startTime = params.timeRange[0];
+        if (params.taskType === '1') {
+            params.endTime = params.timeRange[1];
+            params.startTime = params.timeRange[0];
+            delete params.timeRange;
+            delete params.taskCron;
+        } else {
+            delete params.timeRange;
+        }
 
         const ret = fetch(API.TASK.ADD_TASK, params, 'post', {}, API.HEADER);
         return ret;
     }
 
     async updateTask(params) {
-        params.endTime = params.timeRange[1];
-        params.startTime = params.timeRange[0];
+        if (params.taskType === '1') {
+            params.endTime = params.timeRange[1];
+            params.startTime = params.timeRange[0];
+            delete params.timeRange;
+            delete params.taskCron;
+        } else {
+            delete params.timeRange;
+        }
 
         const ret = fetch(API.TASK.EDIT_TASK, params, 'post', {}, API.HEADER);
         return ret;
@@ -64,8 +76,14 @@ export default class Task {
         return ret;
     }
 
-    async toggelTaskStatus(id) {
-        const ret = fetch(API.TASK.TOGGLE_STATUS, {id}, 'post');
+    async toggelTaskStatus(id, op) {
+        op = op.toUpperCase();
+        const ret = fetch(API.TASK[op], {id}, 'post');
+        return ret;
+    }
+
+    async startTask(id) {
+        const ret = fetch(API.TASK.TRIGGER, {id}, 'post');
         return ret;
     }
 
@@ -87,7 +105,10 @@ export default class Task {
 
     @action
     setTaskInfo(data) {
-        data.timeRage = data.startTime + '~' + data.endTime;
+        data.timeRange = data.startTime + '~' + data.endTime;
+        data.id = data.id ? data.id.toString() : '';
+        data.taskType = data.taskType || data.taskType === 0 ? data.taskType.toString() : '';
+        data.timeType = data.timeType ? data.timeType.toString() : '';
         this.taskInfo = data;
     }
 

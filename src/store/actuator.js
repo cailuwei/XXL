@@ -8,12 +8,11 @@ useStrict(true); // 使用严格模式
 export default class Actuator {
     orign = {
         id: '',
-        AppName: '',
-        name: '',
-        ordering: '',
+        appName: '',
+        title: '',
+        order: '',
         addressType: '0',
-        addressList: '',
-        ips: ''
+        addressList: ''
     };
 
     addressType = {
@@ -58,6 +57,8 @@ export default class Actuator {
     @action
     setActuatorInfo(info) {
         info.addressList = info.registryList;
+        info.id = info.id ? info.id.toString() : '';
+        info.addressType = info.addressType ? info.addressType.toString() : '';
         this.initFormData = info;
     }
 

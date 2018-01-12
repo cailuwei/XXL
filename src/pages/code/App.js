@@ -24,12 +24,8 @@ import './App.less';
  * @type {string}
  */
 const JOB_CONTENT = '';
-const JOB_LOG_LIST = [
-    {'id': 'jobId1', 'glueRemark': 'glueRemark1'},
-    {'id': 'jobId2', 'glueRemark': 'glueRemark2'},
-    {'id': 'jobId3', 'glueRemark': 'glueRemark3'},
-    {'id': 'jobId4', 'glueRemark': 'glueRemark4'}
-];
+const JOB_LOG_LIST = [];
+const JOB_NAME = '--';
 
 class Comp extends React.Component {
     displayName = 'Comp';
@@ -65,7 +61,7 @@ class Comp extends React.Component {
             mode: 'shell',
             lineNumbers: true,
             matchBrackets: true,
-            value: this.params.jobContent || '--'
+            value: this.params.jobContent || ' '
         });
         this.editor.on('changes', () => {
             this.setState({
@@ -77,7 +73,7 @@ class Comp extends React.Component {
     getMenu() {
         return <Menu>{
             this.params.jobLogGlues.map((item) => {
-                return (<Menu.Item key={item.id} >{'运行模式（shell）:' + item.glueRemark}</Menu.Item>);
+                return (<Menu.Item key={item.id}>{'运行模式（shell）:' + item.glueRemark}</Menu.Item>);
             })
         }
         </Menu>;
@@ -100,12 +96,17 @@ class Comp extends React.Component {
             glueRemark: this.form.getParams()['glueRemark']
         };
 
+        //英文+替换为%2B
+        params.content = params.content.replace(/[%]/g, '%25');
+        params.content = params.content.replace(/[+]/g, '%2B');
+        params.content = params.content.replace(/[&]/g, '%26');
+
         const ret = await fetch(API.CODE.SAVE_CODE, params, 'post');
         if (ret && ret.success) {
             this.dialog.close();
             this.tip.show('保存成功');
         } else {
-            this.tip.show('保存失败');
+            this.tip.show(ret.message || '保存失败');
         }
     }
 
@@ -120,7 +121,7 @@ class Comp extends React.Component {
                 this.tip.show('上传成功');
                 this.editor.setValue(data.data);
             } else {
-                this.tip.show('上传失败');
+                this.tip.show(data.message || '上传失败');
             }
         }
     }
@@ -130,31 +131,29 @@ class Comp extends React.Component {
             <Layout className='app'>
                 <Header>
                     <div style={{width: 1200, margin: '0 auto'}} className='job-code-header'>
-                        <span className='jobName'>GLUE模式(Java) 任务：<span>{this.jobId}</span></span>
+                        <span className='jobName'>GLUE模式(Shell) 任务：<span>{JOB_NAME}</span></span>
 
                         <Button ref={(f) => this.saveBtn = f}
                                 onClick={this.openDialog}
                                 theme='primary'
                                 className='ml-15' icon='save' disabled={this.state.disabled}>保 存</Button>
-                        <Dropdown overlay={this.getMenu()} action='click' align='bottomRight'>
-                            <span className='job-versions'>版本回溯 <i className='cmui cmui-angle-down'></i></span>
-                        </Dropdown>
+                        {/*<Dropdown overlay={this.getMenu()} action='click' align='bottomRight'>*/}
+                        {/*<span className='job-versions'>版本回溯 <i className='cmui cmui-angle-down'></i></span>*/}
+                        {/*</Dropdown>*/}
                     </div>
                 </Header>
                 <Content>
                     <div className='code-wrap' ref={(f) => this.codeWrap = f}></div>
 
                     <div className='mt-20 upload-wrap'>
-                        <Uploadify buttonText='选择上传脚本' multi={false} url={API.CODE.UPLOAD}
-                                   silent
-                                   ref={(f) => this.upload = f}
+                        <Uploadify buttonText='选择上传脚本'
+                                   ref={(ref) => this.upload = ref}
+                                   multi={false}
+                                   url={API.CODE.UPLOAD}
                                    onFileUploaded={this.onFileUploaded}
-                                   mimeTypes={[{title: 'Shell脚本', extensions: 'sh'}]}
-                        />
+                                   mimeTypes={[{title: 'Shell脚本', extensions: 'sh'}]}/>
                     </div>
                 </Content>
-
-                <MessageBox ref={(f) => this.tip = f} title='提示'/>
 
                 <Dialog
                     title='保存'
@@ -162,6 +161,8 @@ class Comp extends React.Component {
                     onConfirm={this.save}
                     content={<Form ref={(f) => this.form = f}/>}>
                 </Dialog>
+
+                <MessageBox ref={(f) => this.tip = f} title='提示'/>
             </Layout>
         );
     }

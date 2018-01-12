@@ -7,17 +7,35 @@ import API from '../configs/api';
 useStrict(true); // 使用严格模式
 
 export default class Schedule {
+    origin = {
+        id: '',
+        taskId: '',
+        jobId: '',
+        jobDesc: '',
+        params: ''
+    };
+
     @observable data;
-    @observable nodeData;
+    @observable nodeData = {
+        id: '',
+        taskId: '',
+        jobId: '',
+        jobDesc: '',
+        params: ''
+    };
     @observable linkFormNodes;
     @observable linkFormData = {
         prefixId: '',
         nextId: ''
     }
     @observable saveFetching = false;
+    @observable jobInfoList = [];
+    @observable jobInfoMap = {};
 
     walkList(data) {
         return data.map((item) => {
+            item.id = item.id.toString();
+            item.jobId = item.jobId.toString();
             item['items'] = item.nextId.split(',');
             return item;
         });
@@ -25,9 +43,16 @@ export default class Schedule {
 
     async fetchScheduleData(taskId) {
         const ret = await fetch(API.SCHEDULE.GET_SCHEDULE, {taskId}, 'post');
-        // if (ret && ret.success) {
-        this.setScheduleData(this.walkList(ret));
-        // }
+        if (ret && ret.success) {
+            this.setScheduleData(this.walkList(ret.data));
+        }
+    }
+
+    async fetchJobInfoList() {
+        const ret = await fetch(API.SCHEDULE.GET_JOB_INFO, {}, 'post');
+        if (ret && ret.success) {
+            this.setJobInfo(ret.jobInfoList);
+        }
     }
 
     async putNode(node, callback) {
@@ -45,7 +70,7 @@ export default class Schedule {
     }
 
     async deleteNode(id) {
-        const ret = await fetch(API.SCHEDULE.DELETE_NODE, id, 'post');
+        const ret = await fetch(API.SCHEDULE.DELETE_NODE, {id}, 'post');
         return ret;
     }
 
@@ -102,9 +127,8 @@ export default class Schedule {
     }
 
     @action
-    addNode(node) {
-        node.id = UUID.v4();
-        this.data[0].push(node);
+    initAddFormData() {
+        this.nodeData = JSON.parse(JSON.stringify(this.origin));
     }
 
     @action
@@ -112,8 +136,22 @@ export default class Schedule {
         this.data = data;
     }
 
+    @action
+    setJobInfo(data) {
+        const map = {};
+        this.jobInfoList = data ? data.map((item) => {
+            map[item.id] = item.jobName;
+            return {'id': item.id.toString(), 'text': item.jobName};
+        }) : [];
+        this.jobInfoMap = map;
+    }
+
     getScheduleData() {
         return toJS(this.data);
+    }
+
+    getJobInfoList() {
+        return toJS(this.jobInfoList);
     }
 
     getLinkFormNodes() {
