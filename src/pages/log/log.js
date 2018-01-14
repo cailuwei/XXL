@@ -15,15 +15,15 @@ import './Log.less';
  * development use
  * @type {string}
  */
-const EXECUTOR_ADDRESS = '';
-const TRIGGER_TIME = '';
-const LOG_ID = '';
+// const EXECUTOR_ADDRESS = '';
+// const TRIGGER_TIME = '';
+// const LOG_ID = '';
 
 class Comp extends React.Component {
     displayName = 'Comp';
 
     state = {
-        logInfo: ''
+        logInfo: []
     };
 
     timer = {};
@@ -50,9 +50,9 @@ class Comp extends React.Component {
 
         if (ret && ret.success) {
             const data = ret.data || {};
-            this.setState({
-                'logInfo': data.logContent
-            });
+            const logs = this.state.logInfo;
+            data.logContent ? logs.push(data.logContent) : null;
+            this.setState({'logInfo': logs});
 
             if (!data.end) {
                 this.params.fromLineNum = data.toLineNum;
@@ -67,7 +67,17 @@ class Comp extends React.Component {
     }
 
     refresh = () => {
+        this.params.fromLineNum = 0;
+        this.setState({'logInfo': []});
         this.getLogInfo();
+    }
+
+    renderLog() {
+        const data = this.state.logInfo;
+
+        return data.map((log) => {
+            return (<p style={{marginBottom: '5px'}}>{log}</p>);
+        });
     }
 
     render() {
@@ -84,7 +94,7 @@ class Comp extends React.Component {
                                 icon='refresh'>刷 新</Button>
                     </div>
                 </Header>
-                <Content>{this.state.logInfo}</Content>
+                <Content>{this.renderLog()}</Content>
 
                 <MessageBox ref={(f) => this.tip = f} title='提示'/>
             </Layout>

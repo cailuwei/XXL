@@ -17,7 +17,7 @@ const COLOR = '#daecff';
 class Page extends Component {
     displayName = 'Page';
 
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.startX = 45;
         this.startY = 30;
@@ -49,7 +49,7 @@ class Page extends Component {
      * @param  {[type]} index   [description]
      * @return {[type]}         [description]
      */
-    rebuildData (data) {
+    rebuildData(data) {
         this.dp = new DataProcessing(data);
         this.nodeMap = this.dp.nodeMap;
         const max = this.dp.getMax();
@@ -59,7 +59,7 @@ class Page extends Component {
         this.height = this.startY * 2 + (ITEMHEIGHT + ITEMGAP) * max - ITEMGAP;
     }
 
-    componentDidMount () {
+    componentDidMount() {
         const canvas = ReactDOM.findDOMNode(this.refs.canvas);
         this.paper = Raphael(canvas, canvas.offsetWidth, canvas.offsetHeight - 10);
 
@@ -70,11 +70,11 @@ class Page extends Component {
         this._isMounted = true;
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         this._isMounted = false;
     }
 
-    addNode (node) {
+    addNode(node) {
         this.dp.addNode(node);
         const max = this.dp.getMax();
         const levels = this.dp.getLevels();
@@ -92,7 +92,7 @@ class Page extends Component {
     }
 
 
-    editNode (id, params) {
+    editNode(id, params) {
         /**
          * cailuwei update
          * 2018-01-10
@@ -105,11 +105,24 @@ class Page extends Component {
             item.jobName = params.jobName;
             item.params = params.params;
             const data = this.state.data;
+
+            /**
+             * cailuwei add
+             * 2018-01-14
+             */
+            data.forEach((item) => {
+                if (item.id === id) {
+                    item.jobId = params.jobId;
+                    item.jobDesc = params.jobDesc;
+                    item.jobName = params.jobName;
+                    item.params = params.params;
+                }
+            });
             this.setState({data});
         }
     }
 
-    removeNode (node) {
+    removeNode(node) {
         this.dp.removeNode(node);
 
         const max = this.dp.getMax();
@@ -127,15 +140,15 @@ class Page extends Component {
         });
     }
 
-    checkValidParents (node, ids, sufIds) {
+    checkValidParents(node, ids, sufIds) {
         return this.dp.checkValidParents(node, ids, sufIds);
     }
 
-    checkValidChildren (node, preIds, ids) {
+    checkValidChildren(node, preIds, ids) {
         return this.dp.checkValidChildren(node, preIds, ids);
     }
 
-    editNodeLinks (node, parentIds, childIds) {
+    editNodeLinks(node, parentIds, childIds) {
         this.dp.updateNodeLinks(node, parentIds, childIds);
 
         const max = this.dp.getMax();
@@ -153,7 +166,7 @@ class Page extends Component {
         });
     }
 
-    reRenderBoxsAndLines () {
+    reRenderBoxsAndLines() {
         this.paper.clear();
         this.lines = {};
         this.renderLinks();
@@ -165,34 +178,38 @@ class Page extends Component {
         this.renderBoxes();
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (nextProps.data !== this.props.data && nextProps.data !== this.state.data) {
-            if (nextProps.data) {
-                this.rebuildData(nextProps.data);
-            }
+            /**
+             * cailuwei update
+             * 2018-01-14
+             */
+            // if (nextProps.data) {
+            //     this.rebuildData(nextProps.data);
+            // }
 
-            if (this._isMounted) {
-                this.setState({
-                    data: this.dp.data
-                }, () => {
-                    this.updateCanvasSize();
-                    this.reRenderBoxsAndLines();
-                });
-            }
+            // if (this._isMounted) {
+            //     this.setState({
+            //         data: this.dp.data
+            //     }, () => {
+            //         this.updateCanvasSize();
+            //         this.reRenderBoxsAndLines();
+            //     });
+            // }
         }
     }
 
     /**
      * 可视区域的宽高
      */
-    getViewSize () {
+    getViewSize() {
         return {
             width: this.width,
             height: this.height
         };
     }
 
-    getCanvasSize () {
+    getCanvasSize() {
         const canvas = ReactDOM.findDOMNode(this.refs.canvas);
         return {
             w: canvas.offsetWidth,
@@ -200,11 +217,11 @@ class Page extends Component {
         };
     }
 
-    getItem (id) {
+    getItem(id) {
         return this.items[id];
     }
 
-    clearHighlight () {
+    clearHighlight() {
         this.highlights.forEach((id) => {
             const line = this.lines[id];
             if (line) {
@@ -214,26 +231,28 @@ class Page extends Component {
         this.highlights = [];
     }
 
-    addHighlight (item) {
+    addHighlight(item) {
         this.highlights.push(item);
     }
 
-    highlight (id) {
+    highlight(id) {
         const line = this.lines[id];
         if (line) {
             line.animate({'fill': HIGHLIGHT_COLOR}, 300);
         }
     }
 
-    unBind (id) {
+    unBind(id) {
         delete this.items[id];
     }
 
-    renderItems () {
+    renderItems() {
         if (this.state.data && this.state.data.length) {
             const eles = this.state.data.map((item) => {
-                return <Node 
-                    ref={(ref) => { this.items[item.id] = ref; }}
+                return <Node
+                    ref={(ref) => {
+                        this.items[item.id] = ref;
+                    }}
                     data={item}
                     key={item.id}
                     root={this}
@@ -248,7 +267,7 @@ class Page extends Component {
         return null;
     }
 
-    renderLinks () {
+    renderLinks() {
         const data = this.state.data;
         if (data && data.length) {
             data.forEach((item) => {
@@ -269,7 +288,7 @@ class Page extends Component {
                             pos = {};
                             pos.x = item.position.x + ITEMWIDTH + 6;
                             pos.y = item.position.y - ITEMHEIGHT / 2 + BOXSIZE / 2;
-    
+
                             this.renderCircleLink(id, pos, parentPos, item, parent);
                         } else {
                             pos = item.position;
@@ -281,7 +300,7 @@ class Page extends Component {
         }
     }
 
-    renderBoxes () {
+    renderBoxes() {
         const data = this.state.data;
         if (data && data.length) {
             data.forEach((item) => {
@@ -290,7 +309,7 @@ class Page extends Component {
         }
     }
 
-    renderLink (id, pos, parentPos, ratio, item, parent) {
+    renderLink(id, pos, parentPos, ratio, item, parent) {
         const x = parentPos.x + ITEMWIDTH;
         const y = parentPos.y + ITEMHEIGHT / 2;
         const itemx = pos.x;
@@ -303,12 +322,12 @@ class Page extends Component {
 
         const line = this.polyline(x, y, x + 100, y, itemx - 50, itemy, itemx, itemy, H);
         line.attr('fill', COLOR);
-        
+
         const key = `${parent.id}~${item.id}`;
         this.lines[key] = line;
     }
 
-    renderCircleLink (id, pos, parentPos, item, parent) {
+    renderCircleLink(id, pos, parentPos, item, parent) {
         const x = parentPos.x + ITEMWIDTH;
         const y = parentPos.y + ITEMHEIGHT / 2;
         const itemx = pos.x;
@@ -324,7 +343,7 @@ class Page extends Component {
     }
 
 
-    renderBox (item) {
+    renderBox(item) {
         if (item.level && item.parents && item.hasGapParent && !this.pBoxs[item.id]) {
             let boxH = BOXSIZE;
             if (item.ratio) {
@@ -333,7 +352,10 @@ class Page extends Component {
             const x = item.position.x;
             const y = item.position.y + ITEMHEIGHT / 2;
 
-            const box = this.paper.rect(x - 6, y - boxH / 2, 6, boxH).attr({'fill': 'rgb(137, 183, 232)', 'stroke-width': 0});
+            const box = this.paper.rect(x - 6, y - boxH / 2, 6, boxH).attr({
+                'fill': 'rgb(137, 183, 232)',
+                'stroke-width': 0
+            });
             this.pBoxs[item.id] = box;
         }
 
@@ -344,7 +366,10 @@ class Page extends Component {
                 y = item.position.y + ITEMHEIGHT - BOXSIZE / 2;
             }
 
-            const box = this.paper.rect(x, y - BOXSIZE / 2, 6, BOXSIZE).attr({'fill': 'rgb(152,220,7)', 'stroke-width': 0});
+            const box = this.paper.rect(x, y - BOXSIZE / 2, 6, BOXSIZE).attr({
+                'fill': 'rgb(152,220,7)',
+                'stroke-width': 0
+            });
             this.tBoxs[item.id] = box;
         }
 
@@ -353,29 +378,42 @@ class Page extends Component {
             const x = item.position.x + ITEMWIDTH + 6;
             const y = item.position.y + BOXSIZE / 2;
 
-            const box = this.paper.rect(x - 6, y - BOXSIZE / 2, 6, BOXSIZE).attr({'fill': 'rgb(137, 183, 232)', 'stroke-width': 0});
+            const box = this.paper.rect(x - 6, y - BOXSIZE / 2, 6, BOXSIZE).attr({
+                'fill': 'rgb(137, 183, 232)',
+                'stroke-width': 0
+            });
             this.ptBoxs[item.id] = box;
         }
     }
 
-    polyline (x, y, ax, ay, bx, by, zx, zy, H) {
+    polyline(x, y, ax, ay, bx, by, zx, zy, H) {
         const h = H / 2;
         // zx = zx - 6;
         const lineWidth = 2;
         const path = [['M', x, y - lineWidth / 2], ['C', ax, ay, bx, by - h, zx, zy - h],
             ['L', zx, zy + h], ['C', bx, by, ax, ay + lineWidth / 2, x, y + lineWidth / 2, 'Z']];
-        return this.paper.path(path).attr({stroke: '#daecff', 'stroke-width': 1, 'stroke-linecap': 'round', 'arrow-end': 'classic-wide-long'});
+        return this.paper.path(path).attr({
+            stroke: '#daecff',
+            'stroke-width': 1,
+            'stroke-linecap': 'round',
+            'arrow-end': 'classic-wide-long'
+        });
     }
 
-    polyline2 (x, y, ax, ay, bx, by, zx, zy, H) {
+    polyline2(x, y, ax, ay, bx, by, zx, zy, H) {
         const h = H / 2;
         const lineWidth = 2;
         const path = [['M', x, y + lineWidth / 2], ['C', ax, ay, bx, by - h, zx, zy - h],
             ['L', zx, zy + h], ['C', bx, by, ax + H, ay - h, x, y, 'Z']];
-        return this.paper.path(path).attr({stroke: '#daecff', 'stroke-width': 1, 'stroke-linecap': 'round', 'arrow-end': 'classic-wide-long'});
+        return this.paper.path(path).attr({
+            stroke: '#daecff',
+            'stroke-width': 1,
+            'stroke-linecap': 'round',
+            'arrow-end': 'classic-wide-long'
+        });
     }
 
-    updateCanvasSize () {
+    updateCanvasSize() {
         const canvas = ReactDOM.findDOMNode(this.refs.canvas);
 
         // let width = Math.max(this.width, canvas.clientWidth);
@@ -388,7 +426,7 @@ class Page extends Component {
         this.wrap.style.height = `${this.height + 30}px`;
     }
 
-    clearAllNextLevel (level) {
+    clearAllNextLevel(level) {
         const data = this.state.data;
         for (let i = data.length - 1; i >= 0; i--) {
             const item = data[i];
@@ -414,11 +452,11 @@ class Page extends Component {
         }
     }
 
-    getAllNodes () {
+    getAllNodes() {
         return this.state.data;
     }
 
-    getOtherNodes (node) {
+    getOtherNodes(node) {
         const nodes = [];
         this.state.data.forEach((item) => {
             if (item != node) {
@@ -432,9 +470,10 @@ class Page extends Component {
         return nodes;
     }
 
-    render () {
+    render() {
         return (
-            <div ref={(f) => this.wrap = f} style={{width: '100%', height: '100%', position: 'relative', overflow: 'auto'}}>
+            <div ref={(f) => this.wrap = f}
+                 style={{width: '100%', height: '100%', position: 'relative', overflow: 'auto'}}>
                 <div ref='canvas' style={{width: '100%', height: '100%'}}></div>
                 <div ref='placeHelper' style={{position: 'absolute', top: '0', left: 0, width: '100%', height: '100%'}}>
                     {this.renderItems()}

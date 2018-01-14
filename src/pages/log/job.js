@@ -18,8 +18,8 @@ class BaseForm extends React.Component {
     render() {
         const taskInstId = this.props.match.params.taskInstId;
         const single = [
-            {name: 'taskInstId', text: '实例ID', style: {width: '120px'}},
-            {name: 'id', text: 'jobID', style: {width: '120px'}},
+            {name: 'jobId', text: 'jobID', style: {width: '120px'}},
+            {name: 'jobName', text: 'job名称'},
             {name: 'handleTime', text: '执行时间'},
             {
                 name: 'triggerMsg', text: '调度备注', format: (value) => {

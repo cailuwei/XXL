@@ -23,9 +23,9 @@ import './App.less';
  * development use
  * @type {string}
  */
-const JOB_CONTENT = '';
-const JOB_LOG_LIST = [];
-const JOB_NAME = '--';
+// const JOB_CONTENT = '';
+// const JOB_LOG_LIST = [];
+// const JOB_NAME = '--';
 
 class Comp extends React.Component {
     displayName = 'Comp';

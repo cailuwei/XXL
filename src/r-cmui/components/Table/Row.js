@@ -28,12 +28,22 @@ class Row extends BaseComponent{
         this.identify = props.identify;
     }
 
-    componentWillReceiveProps(){
+    componentWillReceiveProps(nextProps){
         // if (!shallowEqual(nextProps.data, this.state.data)) {
         //     this.setState({
         //         data: nextProps.data
         //     });
         // }
+
+        /**
+         * cailuwei update
+         * 2018-01-14
+         */
+        if(nextProps.data !== this.props.data && nextProps.data !== this.state.data){
+            this.setState({
+                data: nextProps.data
+            });
+        }
     }
 
     checkRow = (value, checked)=>{

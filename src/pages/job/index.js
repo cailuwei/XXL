@@ -16,7 +16,7 @@ class List extends React.Component {
 
     cron = [
         {name: 'id', text: 'jobID', style: {width: '120px'}},
-        {name: 'jobName', text: 'job名称', style: {width: '120px'}},
+        {name: 'jobName', text: 'job名称'},
         {
             name: 'jobDesc', text: 'job描述', tip: true, format: (value) => {
             return <div className='ellipsis cur-pointer' title={value} style={{width: '300px'}}>{value}</div>;

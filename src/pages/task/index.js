@@ -66,7 +66,7 @@ class BaseForm extends React.Component {
             const {task} = this.props;
             const ret = op ? await task.toggelTaskStatus(id, op) : await task.startTask(id);
             if (ret && ret.success) {
-                this.tip.show(op === 'start' ? '启动' : '暂停' + '成功');
+                this.tip.show((op ? op === 'start' ? '启动' : '暂停' : '启动') + '成功');
                 this.table.refresh();
             } else {
                 this.tip.show(ret.message || '状态修改失败');

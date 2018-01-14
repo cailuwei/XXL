@@ -2,6 +2,10 @@
 new ETL
 
 update 
+2018-01-14 Table/Row.js 37  获取新的行数据，设置state.data
+2018-01-14 flowChart.js 102 注释props更改后的操作，会导致组件视图初始化
+2018-01-14 flowChart.js 110 编辑后，设置state.data
+
 2018-01-11 cmui DateRange/index.js 176/206 当showTime属性为true时，选择起止日期不关闭日期选择框
 ps: 321 onSelect 回调和文档不一致，文档中是onSelect，源码中是onSelected
 

@@ -67,8 +67,6 @@ export default class Job {
         this.isFetching = false;
     }
 
-    e
-
     @action
     setJobInfo(data) {
         data.id = data.id ? data.id.toString() : '';
@@ -79,13 +77,13 @@ export default class Job {
     @action
     setBaseInfo(data) {
         const strategyList = data.ExecutorRouteStrategyEnum || {};
-        let list = [];
+        const list = [];
         for (let key in strategyList) {
             list.push({'id': key, 'text': strategyList[key]});
         }
         this.strategyList = list;
 
-        let map = {};
+        const map = {};
         this.jobGroupList = data.JobGroupList ? data.JobGroupList.map((item) => {
             map[item.id] = item.title;
             return {'id': item.id.toString(), 'text': item.title};
